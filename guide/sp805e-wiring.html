@@ -1,0 +1,62 @@
+<!doctype html><html><head><meta charset="utf-8"><title>SP805E: what goes where</title><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#1d1d1f)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid color-mix(in srgb,currentColor 15%,transparent)}
+th{font-size:12px;opacity:.7;font-weight:600}
+.sw{display:inline-block;width:22px;height:9px;border-radius:5px;vertical-align:middle;margin-right:6px;border:1px solid rgba(127,127,127,.5)}
+.note{font-size:13px;opacity:.8}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 1250 960" aria-label="SP805E annotated">
+<image href="img/sp805e.png" x="150" y="10" width="737" height="938"/>
+<!-- dim unused right terminals -->
+<g fill="#f3efe6" opacity=".72">
+<rect x="745" y="190" width="105" height="225"/><rect x="745" y="428" width="105" height="34"/>
+<rect x="745" y="672" width="105" height="84"/>
+</g>
+<text x="905" y="290" font-size="17" fill="#9a958a">GND · DATA · W · C</text>
+<text x="905" y="312" font-size="17" fill="#9a958a">not used</text>
+<!-- highlight rings -->
+<g fill="none" stroke-width="5">
+<circle cx="822" cy="502" r="21" stroke="#2f74d0"/>
+<circle cx="822" cy="551" r="21" stroke="#2f9e4a"/>
+<circle cx="822" cy="600" r="21" stroke="#777"/>
+<circle cx="822" cy="648" r="21" stroke="#d63a2f"/>
+</g>
+<!-- wires out -->
+<g stroke-width="7" stroke-linecap="round" fill="none">
+<path d="M843 502 L900 502" stroke="#d8d4cc"/>
+<path d="M843 551 L900 551" stroke="#2f9e4a"/>
+<path d="M843 600 L900 600" stroke="#9a9a9a"/>
+<path d="M843 648 L900 648" stroke="#d63a2f"/>
+</g>
+<g font-size="20" font-weight="800">
+<text x="910" y="498" fill="#555">white</text><text x="910" y="520" font-size="16" font-weight="600" fill="#6b675e">→ lamp transparent (blue)</text>
+<text x="910" y="547" fill="#2f7a3e">green</text><text x="910" y="569" font-size="16" font-weight="600" fill="#6b675e">→ lamp green</text>
+<text x="910" y="596" fill="#666">braid</text><text x="910" y="618" font-size="16" font-weight="600" fill="#6b675e">→ lamp black (red)</text>
+<text x="910" y="644" fill="#d63a2f">red · 24 V</text><text x="910" y="666" font-size="16" font-weight="600" fill="#6b675e">→ lamp printed white (LED+)</text>
+</g>
+<text x="910" y="706" font-size="15" fill="#6b675e">any one of the 3 VCC terminals</text>
+<!-- power in -->
+<path d="M20 715 L188 715" stroke="#2b2b2b" stroke-width="12" stroke-linecap="round"/>
+<circle cx="218" cy="715" r="40" fill="none" stroke="#e8902a" stroke-width="5"/>
+<text x="20" y="680" font-size="20" font-weight="800" fill="#c26a12">24 V adapter</text>
+<text x="20" y="702" font-size="16" fill="#6b675e">plugs in here</text>
+<text x="20" y="760" font-size="15" fill="#6b675e">(DC jack, 5–24 V)</text>
+<!-- left terminals unused -->
+<rect x="185" y="378" width="105" height="190" fill="#f3efe6" opacity=".72"/>
+<text x="20" y="470" font-size="16" fill="#9a958a">left terminals:</text>
+<text x="20" y="490" font-size="16" fill="#9a958a">not needed</text>
+</svg></div>
+<table>
+<tr><th>SP805E terminal</th><th>Your lead</th><th>Lamp wire</th><th>WLED pin</th></tr>
+<tr><td><b>VCC</b> (any)</td><td><span class="sw" style="background:#d63a2f"></span>red</td><td>printed white (LED+)</td><td>n/a</td></tr>
+<tr><td><b>PWM-R</b></td><td><span class="sw" style="background:#9a9a9a"></span>braid</td><td>black</td><td><b>25</b></td></tr>
+<tr><td><b>PWM-G</b></td><td><span class="sw" style="background:#2f9e4a"></span>green</td><td>green</td><td><b>26</b></td></tr>
+<tr><td><b>PWM-B</b></td><td><span class="sw" style="background:#e9e6df"></span>white</td><td>transparent</td><td><b>27</b></td></tr>
+</table>
+<div class="note"><b>WLED → Config → LED Preferences:</b> output type <b>PWM RGB</b>, pins <b>25, 26, 27</b> (James's unit shipped set up for <b>addressable strips on IO16/IO2</b>, so the lamp stays dark until you change this: delete both buses, add one PWM RGB bus, 1 LED). Brightness limiter off, PWM about 19 kHz. Power is the DC jack only; leave the left-hand VCC/GND terminals empty.</div>
+</div></body></html>

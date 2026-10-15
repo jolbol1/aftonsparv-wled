@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AFTONSPARV → WLED: build guide</title>
+<style>
+:root{
+  --bg:#f6f5f2;--fg:#1d1d1f;--mf:#62615c;--card:#fff;--bd:#e3e1db;--code:#f0eee8;
+  --accent:#e8902a;--ok:#2f9e66;--warn:#d6453a;--info:#2f74d0;--radius:14px;
+  --w-red:#d63a2f;--w-black:#222;--w-green:#2f9e4a;--w-white:#f2f2f2;--w-trans:#bfe3f2;--w-24:#e8902a;
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#141414;--fg:#ececec;--mf:#a3a19b;--card:#1d1d1d;--bd:#2f2f2f;--code:#2a2a2a;--w-black:#555;
+}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--info)}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 20px 80px}
+header.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:center;margin-bottom:28px}
+header.hero img{width:100%;border-radius:var(--radius);display:block}
+h1{font-size:34px;line-height:1.15;margin:0 0 10px;letter-spacing:-.02em}
+.lede{color:var(--mf);margin:0 0 14px}
+.pill{display:inline-block;font-size:12.5px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--code);margin:0 6px 6px 0}
+nav.toc{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);margin:0 -20px 24px;padding:10px 20px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}
+nav.toc a{flex:none;text-decoration:none;color:var(--mf);font-size:13px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--bd);background:var(--card)}
+nav.toc a.done{color:var(--ok);border-color:color-mix(in srgb,var(--ok) 50%,var(--bd))}
+.progress{height:6px;background:var(--bd);border-radius:3px;overflow:hidden;margin:6px 0 0}
+.progress i{display:block;height:100%;width:0;background:var(--ok);transition:width .3s}
+h2{font-size:22px;margin:40px 0 14px;letter-spacing:-.01em}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.rule{background:color-mix(in srgb,var(--warn) 9%,var(--card));border:1px solid color-mix(in srgb,var(--warn) 35%,var(--bd));border-radius:var(--radius);padding:14px 16px;font-size:14.5px}
+.rule b{display:block;color:var(--warn);margin-bottom:3px}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.part{background:var(--card);border:1px solid var(--bd);border-radius:var(--radius);overflow:hidden;font-size:14px}
+.part img{width:100%;aspect-ratio:4/3;object-fit:contain;background:#fff;display:block}
+.part div{padding:10px 12px}
+.part b{display:block}
+.part span{color:var(--mf);font-size:13px}
+.tools{columns:2;font-size:14.5px;color:var(--mf);margin:12px 0 0;padding-left:18px}
+section.step{background:var(--card);border:1px solid var(--bd);border-radius:var(--radius);padding:22px;margin:0 0 18px;scroll-margin-top:64px}
+section.step.done{opacity:.62}
+.shead{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.snum{flex:none;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;background:var(--accent);color:#fff}
+section.step.done .snum{background:var(--ok)}
+.shead h3{margin:0;font-size:19px;flex:1}
+.check{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--mf);cursor:pointer;user-select:none;white-space:nowrap}
+.check input{width:18px;height:18px;accent-color:var(--ok)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+.grid.wide{grid-template-columns:1.25fr 1fr}
+ol.do{margin:0;padding-left:20px}
+ol.do li{margin:0 0 8px}
+figure{margin:0}
+figure img,figure svg{width:100%;display:block;border-radius:10px}
+figure img{background:#fff;border:1px solid var(--bd)}
+figcaption{font-size:12.5px;color:var(--mf);margin-top:6px}
+.callout{border-radius:10px;padding:10px 14px;font-size:14px;margin:12px 0 0}
+.callout.warn{background:color-mix(in srgb,var(--warn) 10%,transparent);border-left:4px solid var(--warn)}
+.callout.tip{background:color-mix(in srgb,var(--info) 10%,transparent);border-left:4px solid var(--info)}
+.callout.ok{background:color-mix(in srgb,var(--ok) 10%,transparent);border-left:4px solid var(--ok)}
+code,kbd{font:13.5px ui-monospace,Menlo,monospace;background:var(--code);padding:1px 6px;border-radius:5px}
+table.map{width:100%;border-collapse:collapse;font-size:14px}
+table.map td,table.map th{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:middle}
+table.map th{font-size:12px;color:var(--mf);text-transform:uppercase;letter-spacing:.04em}
+.sw{display:inline-block;width:26px;height:10px;border-radius:5px;vertical-align:middle;margin-right:7px;border:1px solid rgba(127,127,127,.5)}
+.svgcard{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:12px}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+.foot{color:var(--mf);font-size:13px;margin-top:40px;border-top:1px solid var(--bd);padding-top:16px}
+@media (max-width:760px){
+  header.hero,.grid,.grid.wide{grid-template-columns:1fr}
+  h1{font-size:28px}
+  .tools{columns:1}
+}
+@media print{nav.toc,.check{display:none}section.step{break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div>
+    <h1>IKEA AFTONSPARV → ESP32 + WLED</h1>
+    <p class="lede">Swap the lamp's IKEA controller for an ESP32-C3 running WLED, powered from one USB charger through the lamp's own cord. You'll get app and Home Assistant control, effects and schedules.</p>
+    <span class="pill">⏱ ~2–3 hours</span><span class="pill">🔌 USB 5 V → boost to 24 V</span><span class="pill">3 × MOSFET PWM</span>
+    <div class="progress" title="Progress"><i id="bar"></i></div>
+    <p class="lede" style="font-size:13px;margin-top:6px" id="progtext"></p>
+  </div>
+  <figure><img src="img/hero.jpg" alt="AFTONSPARV lamp lit cyan by an ESP32"><figcaption>The same conversion done with the Caffeinated AFTONSPARV board. Photo: caffeinated-labs.</figcaption></figure>
+</header>
+
+<nav class="toc" id="toc"></nav>
+
+<h2 id="rules">Four rules that protect the parts</h2>
+<div class="rules">
+  <div class="rule"><b>Unplug before rewiring</b>Pull the USB charger out of the wall before you move any wire.</div>
+  <div class="rule"><b>Never USB + lamp power together</b>Never plug the C3's USB-C into your Mac while the lamp cord is powered. The two 5 V supplies would fight each other.</div>
+  <div class="rule"><b>Set 24.0 V before the lamp</b>The MT3608 ships at a random voltage, up to 28 V. Set it with nothing attached to its output.</div>
+  <div class="rule"><b>MOSFET legs: G · D · S</b>With the printing facing you and the legs down: Gate, Drain, Source, left to right. The metal tab is also Drain.</div>
+</div>
+
+<h2 id="parts">What you need</h2>
+<div class="parts">
+  <div class="part"><img src="img/c3-photo.jpg" alt="ESP32-C3 SuperMini"><div><b>ESP32-C3 SuperMini</b><span>1 of your 2. Runs WLED.</span></div></div>
+  <div class="part"><img src="img/mt3608-pads.jpg" alt="MT3608 boost converter"><div><b>MT3608 boost</b><span>1 of 5. 5 V in → 24 V out.</span></div></div>
+  <div class="part"><img src="img/irlz44n.jpg" alt="IRLZ44N MOSFET"><div><b>IRLZ44N ×3</b><span>One per colour, plus spares in case of fakes.</span></div></div>
+  <div class="part"><svg viewBox="0 0 240 180" style="background:#fff;display:block;aspect-ratio:4/3;width:100%"><g transform="translate(20,40)"><line x1="0" y1="20" x2="200" y2="20" stroke="#999" stroke-width="3"/><rect x="55" y="5" width="90" height="30" rx="13" fill="#e9d3a8"/><rect x="72" y="5" width="9" height="30" fill="#7a4a1e"/><rect x="88" y="5" width="9" height="30" fill="#111"/><rect x="104" y="5" width="9" height="30" fill="#7a4a1e"/><rect x="128" y="5" width="7" height="30" fill="#c9a33a"/><text x="100" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#222">100 Ω ×3</text></g><g transform="translate(20,110)"><line x1="0" y1="20" x2="200" y2="20" stroke="#999" stroke-width="3"/><rect x="55" y="5" width="90" height="30" rx="13" fill="#e9d3a8"/><rect x="72" y="5" width="9" height="30" fill="#7a4a1e"/><rect x="88" y="5" width="9" height="30" fill="#111"/><rect x="104" y="5" width="9" height="30" fill="#e8790c"/><rect x="128" y="5" width="7" height="30" fill="#c9a33a"/><text x="100" y="58" text-anchor="middle" font-size="15" font-weight="700" fill="#222">10 kΩ ×3</text></g></svg><div><b>Resistors (BOJACK kit)</b><span>100 Ω: brown-black-brown. 10 kΩ: brown-black-orange.</span></div></div>
+</div>
+<ul class="tools">
+  <li>Multimeter + PVC tape (Wickes)</li>
+  <li>Soldering iron, solder, wire strippers/cutters</li>
+  <li>USB-A wall charger, 5 V 2 A or more</li>
+  <li>A spare USB-A cable to cut up</li>
+  <li>Small screwdriver (lamp screws and MT3608 trim screw)</li>
+  <li>Breadboard + jumper wires (Freenove kit) for the test build</li>
+  <li>Mac with Chrome, for flashing WLED</li>
+  <li>Stripboard (optional; otherwise wire point-to-point)</li>
+</ul>
+
+<!-- ============ STEPS ============ -->
+<h2 id="steps">Step by step</h2>
+
+<section class="step" id="s1" data-title="Open">
+  <div class="shead"><div class="snum">1</div><h3>Open the lamp and photograph it</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <ol class="do">
+        <li>Unplug the lamp. Lay it face-down on a towel.</li>
+        <li>Undo the three screws on the base ring. <b>One hides under the sticker</b>; feel for it, then peel the sticker back.</li>
+        <li>Lift off the bottom cover only. The top doesn't need to come off.</li>
+        <li><b>Photograph the original board and its wires</b> before you touch anything.</li>
+      </ol>
+      <div class="callout tip">Measure the free space in the channel (width × depth). You'll need it in step 3.</div>
+    </div>
+    <figure><img src="img/open-screws.jpg" alt="Lamp base with three screws circled"><figcaption>The three screws to remove (circled). Photo: caffeinated-labs.</figcaption></figure>
+  </div>
+</section>
+
+<section class="step" id="s2" data-title="Wires">
+  <div class="shead"><div class="snum">2</div><h3>Desolder and label the six wires</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <ol class="do">
+        <li>Desolder all six wires from the IKEA board. The board goes in the bin.</li>
+        <li>Wrap a small tape flag on each wire and write its job on it:</li>
+      </ol>
+      <table class="map">
+        <tr><th>Wire</th><th>Job</th><th>Goes to (later)</th></tr>
+        <tr><td><span class="sw" style="background:var(--w-white)"></span>LED white</td><td>LED + (common)</td><td>MT3608 VOUT+ (24 V)</td></tr>
+        <tr><td><span class="sw" style="background:#222"></span>LED black</td><td>Red</td><td>MOSFET 1 drain</td></tr>
+        <tr><td><span class="sw" style="background:var(--w-green)"></span>LED green</td><td>Green</td><td>MOSFET 2 drain</td></tr>
+        <tr><td><span class="sw" style="background:var(--w-trans)"></span>LED transparent</td><td>Blue</td><td>MOSFET 3 drain</td></tr>
+        <tr><td><span class="sw" style="background:var(--w-white)"></span>Cord white</td><td>Power +</td><td>5 V rail</td></tr>
+        <tr><td><span class="sw" style="background:#222"></span>Cord black</td><td>Power −</td><td>GND rail</td></tr>
+      </table>
+      <div class="callout warn">There are two white wires and two black wires. The tape flags are what keep them apart.</div>
+    </div>
+    <figure><img src="img/original-board.jpg" alt="Original IKEA board inside the lamp channel"><figcaption>The original IKEA board in the channel at the bottom of the ring. Photo: caffeinated-labs.</figcaption></figure>
+  </div>
+</section>
+
+<section class="step" id="s3" data-title="Fit">
+  <div class="shead"><div class="snum">3</div><h3>Check everything will fit</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <p style="margin-top:0">The electronics have to fit in that curved channel. Compare the channel against these sizes:</p>
+      <table class="map">
+        <tr><th>Part</th><th>Size (mm)</th></tr>
+        <tr><td>ESP32-C3 SuperMini</td><td>18 × 22.5 × ~4 (no header pins)</td></tr>
+        <tr><td>MT3608</td><td>36 × 17 × <b>14</b> (the trim screw is the tall part)</td></tr>
+        <tr><td>IRLZ44N</td><td>10 × 15 body, lies 4.5 thick when bent flat</td></tr>
+      </table>
+      <div class="callout tip"><b>Space savers:</b> solder wires straight to the C3 instead of fitting its header pins. Bend each MOSFET's legs 90° so it lies flat. Spread the parts along the channel rather than stacking them.</div>
+      <div class="callout warn">If the MT3608 won't fit, stop and ask before cutting anything. The fallback is a small box on the cord.</div>
+    </div>
+    <figure><img src="img/wires-connected.jpg" alt="Caffeinated board wired in the lamp channel"><figcaption>How much room the Caffeinated board used. Ours is three parts spread along the same channel. Photo: caffeinated-labs.</figcaption></figure>
+  </div>
+</section>
+
+<section class="step" id="s4" data-title="WLED">
+  <div class="shead"><div class="snum">4</div><h3>Flash WLED onto the C3 (before any wiring)</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <ol class="do">
+        <li>Plug the bare C3 into your Mac with a USB-C data cable. Nothing else should be connected to it.</li>
+        <li>In Chrome, open <a href="https://install.wled.me" target="_blank">install.wled.me</a> → <b>Install</b> → pick the C3's serial port → install.</li>
+        <li>Not detected? <b>Hold BOOT, tap RST, release BOOT</b>, then try again.</li>
+        <li>When the installer offers Wi-Fi setup, join your home network, then open WLED.</li>
+        <li><b>Config → LED Preferences:</b> output 1 = <code>PWM RGB</code>, GPIOs <code>4</code> <code>5</code> <code>6</code>. Save.</li>
+        <li><b>Config → WiFi Setup:</b> if there's a TX power option, set it to about <b>8.5 dBm</b>. SuperMini antennas drop out at full power.</li>
+        <li>Unplug the C3 from the Mac. From now on it updates over Wi-Fi.</li>
+      </ol>
+      <div class="callout ok">If WLED ever loses your Wi-Fi, it opens its own <b>WLED-AP</b> hotspot. Join it from your phone to fix it, so there's no need to open the lamp.</div>
+    </div>
+    <figure><img src="img/wled-led-prefs.png" alt="WLED hardware setup: PWM RGB on GPIO 4 5 6" style="max-height:620px;object-fit:contain;object-position:top"><figcaption>WLED LED Preferences: PWM RGB on GPIO 4, 5, 6. Screenshot: caffeinated-labs.</figcaption></figure>
+  </div>
+</section>
+
+<section class="step" id="s5" data-title="Pins">
+  <div class="shead"><div class="snum">5</div><h3>Learn the five C3 pins you'll use</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid wide">
+    <div class="svgcard">
+      <svg viewBox="0 0 420 330" aria-label="ESP32-C3 SuperMini pinout, back view">
+        <rect x="120" y="40" width="180" height="250" rx="14" fill="#1b1b1b" stroke="#444"/>
+        <rect x="178" y="22" width="64" height="34" rx="9" fill="#bdbdbd" stroke="#888"/><text x="210" y="16" text-anchor="middle" font-size="11" fill="currentColor">USB-C (top)</text>
+        <text x="210" y="190" text-anchor="middle" font-size="12" fill="#ddd" font-weight="700">ESP32-C3</text>
+        <text x="210" y="206" text-anchor="middle" font-size="11" fill="#bbb">Super Mini</text>
+        <text x="210" y="226" text-anchor="middle" font-size="10" fill="#888">(back side, printed text)</text>
+        <g font-size="12" font-weight="700">
+          <!-- left column -->
+          <g id="L"></g>
+        </g>
+        <script>/* populated below for readability */</script>
+      </svg>
+      <figcaption>Recreated from the listing's pinout, <b>back view</b> (the side printed "ESP32-C3 Super Mini"). Pin labels are printed beside each hole, so trust those.</figcaption>
+    </div>
+    <div>
+      <table class="map">
+        <tr><th>Pin</th><th>Connects to</th></tr>
+        <tr><td><b style="color:var(--w-red)">5V</b></td><td>5 V rail (cord white)</td></tr>
+        <tr><td><b>G</b> (GND)</td><td>GND rail (cord black)</td></tr>
+        <tr><td><b style="color:var(--w-red)">4</b></td><td>100 Ω → MOSFET 1 gate (red)</td></tr>
+        <tr><td><b style="color:var(--w-green)">5</b></td><td>100 Ω → MOSFET 2 gate (green)</td></tr>
+        <tr><td><b style="color:var(--info)">6</b></td><td>100 Ω → MOSFET 3 gate (blue)</td></tr>
+      </table>
+      <div class="callout warn">Leave <b>3.3</b>, <b>2</b>, <b>8</b>, <b>9</b> and <b>20/21</b> free. 2, 8 and 9 affect booting.</div>
+      <figure style="margin-top:12px"><img src="img/c3-pinout.jpg" alt="Seller pinout image of the SuperMini"><figcaption>The seller's pinout image, same back view.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s6" data-title="Cord">
+  <div class="shead"><div class="snum">6</div><h3>Turn the IKEA cord into a USB cord</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <ol class="do">
+        <li>The cord is a detachable lead: it plugs into a DC socket on the lamp. James's lead has a barrel plug on <b>both</b> ends (it unplugs from the adapter too): cut one plug off right behind the plug, and keep the full-length lead with the other plug for the lamp. Bin the adapter: any 24 V barrel adapter would fit the socket and kill the C3, so mark the plug "5 V USB only".</li>
+        <li>Cut the USB-A cable, keeping the end with the big USB-A plug. Strip it: you'll find <b>red</b>, <b>black</b>, <b>green</b> and <b>white</b>.</li>
+        <li>Cut green and white short and tape them back. They're data wires and aren't needed.</li>
+        <li>Find which cord conductor is +. Push the barrel plug into the lamp's socket. Set the meter to continuity (🔊) and touch each cut conductor against the <b>cord-white</b> wire inside the lamp (the plain white on the socket). The one that beeps is +.</li>
+        <li>Join <b>USB red → cord +</b> and <b>USB black → cord −</b>. Stagger the two joints, solder, and tape each one separately, then tape over both.</li>
+        <li>Plug into the charger. Inside the lamp, meter cord-white to cord-black: it should read <b>+5 V</b> (a minus sign means swapped). Unplug.</li>
+      </ol>
+    </div>
+    <div class="svgcard">
+      <svg viewBox="0 0 440 300" aria-label="USB cable spliced to IKEA cord">
+        <!-- USB plug -->
+        <rect x="10" y="118" width="54" height="34" rx="4" fill="#cfcfcf" stroke="#888"/><rect x="18" y="126" width="38" height="8" fill="#5a5a5a"/>
+        <rect x="64" y="122" width="36" height="26" rx="6" fill="#333"/>
+        <text x="55" y="110" text-anchor="middle" font-size="12" fill="currentColor">USB-A → charger</text>
+        <path d="M100 135 H140" stroke="#333" stroke-width="10" stroke-linecap="round"/>
+        <!-- wires out -->
+        <path d="M140 131 C170 131 170 92 200 92 H250" stroke="#d63a2f" stroke-width="5" fill="none"/>
+        <path d="M140 139 C170 139 170 178 200 178 H250" stroke="#222" stroke-width="5" fill="none"/>
+        <path d="M140 133 C160 133 165 222 185 222" stroke="#2f9e4a" stroke-width="4" fill="none"/>
+        <path d="M140 137 C155 137 160 246 178 246" stroke="#ccc" stroke-width="4" fill="none"/>
+        <text x="194" y="226" font-size="11" fill="currentColor">green + white: cut short,</text>
+        <text x="194" y="241" font-size="11" fill="currentColor">tape back (data, not used)</text>
+        <!-- joints -->
+        <rect x="246" y="84" width="26" height="16" rx="4" fill="#111" opacity=".85"/>
+        <rect x="246" y="170" width="26" height="16" rx="4" fill="#111" opacity=".85"/>
+        <!-- cord -->
+        <path d="M272 92 H320 C340 92 340 128 360 128" stroke="#f2f2f2" stroke-width="5" fill="none"/>
+        <path d="M272 92 H320 C340 92 340 128 360 128" stroke="#999" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+        <path d="M272 178 H320 C340 178 340 142 360 142" stroke="#999" stroke-width="5" fill="none"/>
+        <path d="M360 135 H430" stroke="#eee" stroke-width="12" stroke-linecap="round"/><path d="M360 135 H430" stroke="#aaa" stroke-width="12" stroke-linecap="round" fill="none" opacity=".3"/>
+        <text x="395" y="162" text-anchor="middle" font-size="12" fill="currentColor">IKEA cord</text>
+        <text x="395" y="177" text-anchor="middle" font-size="12" fill="currentColor">→ lamp</text>
+        <text x="186" y="80" font-size="12" font-weight="700" fill="#d63a2f">red +5 V</text>
+        <text x="186" y="200" font-size="12" font-weight="700" fill="currentColor">black GND</text>
+        <text x="290" y="80" font-size="12" font-weight="700" fill="currentColor">cord +</text>
+        <text x="290" y="200" font-size="12" font-weight="700" fill="currentColor">cord −</text>
+        <rect x="300" y="262" width="14" height="10" rx="2" fill="#111" opacity=".85"/><text x="320" y="271" font-size="11" fill="currentColor">= solder + tape</text>
+      </svg>
+      <figcaption>Recreation. The USB plug end replaces the IKEA wall adapter, and the cord into the lamp is untouched. "Cord +" is the conductor that beeps to the cord-white wire inside the lamp.</figcaption>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s7" data-title="24 V">
+  <div class="shead"><div class="snum">7</div><h3>Set the MT3608 to exactly 24.0 V</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div>
+      <ol class="do">
+        <li>Solder short wires to all four MT3608 pads.</li>
+        <li><b>VIN+</b> → cord-white (+5 V), <b>VIN−</b> → cord-black. <b>Nothing</b> on VOUT yet.</li>
+        <li>Meter on DC volts, probes on <b>VOUT+</b> / <b>VOUT−</b>. Plug the charger in.</li>
+        <li>Turn the brass trim screw <b>clockwise about 20 turns</b>. It clicks at the end and never stops hard. The meter should fall to about 5 V.</li>
+        <li>Now turn <b>anticlockwise</b>, slowly, until the meter reads <b>24.0 V</b>.</li>
+        <li>Unplug. Dab of tape over the screw so it can't get knocked.</li>
+      </ol>
+      <div class="callout warn">The listing says <b>anticlockwise raises</b> the voltage. If yours goes the other way, believe the meter. Never go above 24.5 V.</div>
+    </div>
+    <div>
+      <div class="svgcard">
+        <svg viewBox="0 0 420 220" aria-label="MT3608 pads and trim screw">
+          <rect x="40" y="40" width="340" height="150" rx="10" fill="#2a6fd6"/>
+          <rect x="70" y="70" width="90" height="80" rx="6" fill="#4d8ff0" stroke="#1d4f9c"/><circle cx="84" cy="140" r="9" fill="#d9b44a" stroke="#8a6d1f"/><path d="M78 140h12" stroke="#6b5414" stroke-width="2"/>
+          <circle cx="250" cy="105" r="34" fill="#3a3a3a"/><text x="250" y="111" text-anchor="middle" font-size="16" fill="#bbb" font-weight="700">220</text>
+          <g fill="#ddd"><rect x="44" y="46" width="34" height="30" rx="4"/><rect x="44" y="154" width="34" height="30" rx="4"/><rect x="342" y="46" width="34" height="30" rx="4"/><rect x="342" y="154" width="34" height="30" rx="4"/></g>
+          <g font-size="13" font-weight="800">
+            <text x="8" y="32" fill="#e8902a">VOUT+ → lamp LED white</text>
+            <text x="8" y="212" fill="currentColor">VOUT− → GND</text>
+            <text x="412" y="32" text-anchor="end" fill="#d63a2f">VIN+ ← 5 V</text>
+            <text x="412" y="212" text-anchor="end" fill="currentColor">VIN− ← GND</text>
+          </g>
+          <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+            <path d="M100 140 m-20 0 a20 20 0 1 0 20 -20"/><path d="M100 120 l-7 -5 M100 120 l-6 6"/>
+          </g>
+          <text x="210" y="172" font-size="12.5" font-weight="800" fill="#fff" text-anchor="middle">⟲ anticlockwise = UP</text>
+          <text x="210" y="186" font-size="11" fill="#dbe8ff" text-anchor="middle">clockwise = down</text>
+        </svg>
+        <figcaption>Recreation. Output (VOUT) is on the trim-screw side and input (VIN) on the coil side. Check the printed labels on your board.</figcaption>
+      </div>
+      <figure style="margin-top:12px"><img src="img/mt3608-note.jpg" alt="Seller note about anticlockwise boosting"><figcaption>Seller's note: "potentiometer face chest, counterclockwise turn boost".</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s8" data-title="MOSFETs">
+  <div class="shead"><div class="snum">8</div><h3>Wire one MOSFET channel (×3)</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <div class="svgcard">
+      <svg viewBox="0 0 420 340" aria-label="One MOSFET channel">
+        <!-- TO-220 body -->
+        <rect x="160" y="14" width="100" height="40" rx="4" fill="#bdbdbd" stroke="#888"/><circle cx="210" cy="34" r="10" fill="#fff" stroke="#888"/>
+        <rect x="160" y="52" width="100" height="92" rx="4" fill="#222"/>
+        <text x="210" y="88" text-anchor="middle" font-size="13" fill="#ddd" font-weight="700">IRLZ44N</text>
+        <text x="210" y="104" text-anchor="middle" font-size="10" fill="#999">text facing you</text>
+        <g font-size="14" font-weight="800" text-anchor="middle" fill="#fff"><text x="180" y="136">G</text><text x="210" y="136">D</text><text x="240" y="136">S</text></g>
+        <!-- legs -->
+        <g stroke="#aaa" stroke-width="6" stroke-linecap="round"><line x1="180" y1="144" x2="180" y2="200"/><line x1="210" y1="144" x2="210" y2="230"/><line x1="240" y1="144" x2="240" y2="200"/></g>
+        <!-- gate: GPIO → 100Ω → G -->
+        <path d="M14 200 H60" stroke="#d63a2f" stroke-width="4"/>
+        <rect x="60" y="190" width="60" height="20" rx="9" fill="#e9d3a8"/><rect x="72" y="190" width="6" height="20" fill="#7a4a1e"/><rect x="83" y="190" width="6" height="20" fill="#111"/><rect x="94" y="190" width="6" height="20" fill="#7a4a1e"/><rect x="108" y="190" width="5" height="20" fill="#c9a33a"/>
+        <path d="M120 200 H180" stroke="#d63a2f" stroke-width="4"/>
+        <circle cx="180" cy="200" r="5" fill="#d63a2f"/>
+        <text x="14" y="186" font-size="12" font-weight="700" fill="currentColor">from GPIO 4</text>
+        <text x="90" y="228" text-anchor="middle" font-size="11" fill="currentColor">100 Ω</text>
+        <!-- pulldown G → S, drawn above the gate wire, between the legs -->
+        <path d="M180 200 V178" stroke="none"/>
+        <!-- S to GND -->
+        <circle cx="240" cy="200" r="5" fill="#555"/>
+        <path d="M240 200 V300" stroke="#555" stroke-width="5"/>
+        <path d="M180 200 V262 H194" stroke="#d63a2f" stroke-width="3" fill="none"/>
+        <rect x="194" y="252" width="34" height="20" rx="9" fill="#e9d3a8"/><rect x="200" y="252" width="5" height="20" fill="#7a4a1e"/><rect x="208" y="252" width="5" height="20" fill="#111"/><rect x="216" y="252" width="5" height="20" fill="#e8790c"/>
+        <path d="M228 262 H240" stroke="#555" stroke-width="3"/><circle cx="240" cy="262" r="4" fill="#555"/>
+        <text x="152" y="290" text-anchor="end" font-size="11" fill="currentColor">10 kΩ gate → source</text>
+        <path d="M240 300 H400" stroke="#555" stroke-width="5"/>
+        <text x="400" y="320" text-anchor="end" font-size="12" font-weight="700" fill="currentColor">→ GND rail</text>
+        <!-- drain: middle leg, hops over the 10k wire, out to the lamp -->
+        <path d="M210 230 V240 H232 A8 8 0 0 1 248 240 H300 C330 240 330 170 360 170 H408" stroke="#9a9a9a" stroke-width="8" fill="none"/><path d="M210 230 V240 H232 A8 8 0 0 1 248 240 H300 C330 240 330 170 360 170 H408" stroke="#1a1a1a" stroke-width="4.5" fill="none"/>
+        <text x="408" y="158" text-anchor="end" font-size="12" font-weight="700" fill="currentColor">→ LED black</text>
+        <text x="408" y="190" text-anchor="end" font-size="11" fill="currentColor">(red channel)</text>
+        <text x="300" y="232" font-size="11" fill="currentColor">drain</text>
+      </svg>
+      <figcaption>Recreation of channel 1. Repeat for GPIO 5 → LED green and GPIO 6 → LED transparent.</figcaption>
+    </div>
+    <div>
+      <ol class="do">
+        <li><b>Build it on the breadboard first</b>, using the Freenove kit's jumpers. Solder only once it works.</li>
+        <li>Gate (left leg): <b>100 Ω</b> in series from the GPIO.</li>
+        <li><b>10 kΩ</b> from gate to source, so the LEDs stay off while the C3 boots.</li>
+        <li>Source (right leg): to the GND rail.</li>
+        <li>Drain (middle leg): to that colour's lamp wire.</li>
+      </ol>
+      <table class="map" style="margin-top:10px">
+        <tr><th>MOSFET</th><th>Gate from</th><th>Drain to</th></tr>
+        <tr><td>1</td><td>GPIO 4</td><td><span class="sw" style="background:#222"></span>LED black (R)</td></tr>
+        <tr><td>2</td><td>GPIO 5</td><td><span class="sw" style="background:var(--w-green)"></span>LED green (G)</td></tr>
+        <tr><td>3</td><td>GPIO 6</td><td><span class="sw" style="background:var(--w-trans)"></span>LED transparent (B)</td></tr>
+      </table>
+      <figure style="margin-top:12px"><img src="img/irlz44n.jpg" alt="IRLZ44N" style="max-height:200px;object-fit:contain"><figcaption>Real part. Legs left to right with the text facing you: G, D, S.</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="callout warn"><b>Updated 2026-10-14:</b> soldering on the bare legs was too cramped. Splay G and S about 30°, put one wire on each leg, fit the 10 kΩ between the gate and source wires about 4 cm away, and put the 100 Ω inline in the gate wire, further along towards the C3. See <a href="step8-mosfet-module.html">step8-mosfet-module.html</a>.</div>
+</section>
+
+<section class="step" id="s9" data-title="Wire all">
+  <div class="shead"><div class="snum">9</div><h3>Connect everything</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="svgcard">
+    <svg viewBox="0 0 980 420" aria-label="Full wiring diagram">
+      <defs>
+        <g id="gnd"><path d="M0 0 V10 M-11 10 H11 M-7 15 H7 M-3 20 H3" stroke="#888" stroke-width="2.5" fill="none" stroke-linecap="round"/></g>
+        <g id="res"><rect x="-17" y="-7" width="34" height="14" rx="6" fill="#e9d3a8"/><rect x="-9" y="-7" width="4" height="14" fill="#7a4a1e"/><rect x="-2" y="-7" width="4" height="14" fill="#111"/><rect x="5" y="-7" width="4" height="14" fill="#7a4a1e"/></g>
+      </defs>
+      <!-- USB cord in -->
+      <rect x="14" y="22" width="150" height="74" rx="10" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5"/>
+      <text x="89" y="44" text-anchor="middle" font-size="13" font-weight="800" fill="currentColor">USB cord in</text>
+      <text x="26" y="66" font-size="11.5" font-weight="700" fill="#d63a2f">cord white +5 V</text>
+      <text x="26" y="86" font-size="11.5" font-weight="700" fill="currentColor">cord black GND</text>
+      <use href="#gnd" x="150" y="80"/><path d="M128 82 H150 V80" stroke="#888" stroke-width="2.5" fill="none"/>
+      <!-- 5 V rail -->
+      <path d="M126 62 H150 V40 H560" stroke="#d63a2f" stroke-width="5" fill="none"/>
+      <text x="300" y="30" font-size="12" font-weight="800" fill="#d63a2f">5 V rail</text>
+      <!-- C3 -->
+      <rect x="200" y="110" width="150" height="250" rx="12" fill="#1b1b1b" stroke="#444"/>
+      <text x="262" y="245" text-anchor="middle" font-size="14" fill="#ddd" font-weight="800">ESP32-C3</text>
+      <text x="262" y="262" text-anchor="middle" font-size="11" fill="#aaa">WLED</text>
+      <path d="M230 40 V110" stroke="#d63a2f" stroke-width="3"/><text x="214" y="130" font-size="12" font-weight="800" fill="#ff8a80">5V</text>
+      <text x="214" y="350" font-size="12" font-weight="800" fill="#ccc">G</text><path d="M230 360 V372" stroke="#888" stroke-width="2.5"/><use href="#gnd" x="230" y="372"/>
+            <!-- channel rows: y = 170, 240, 310 -->
+      <text x="342" y="174" text-anchor="end" font-size="12" font-weight="800" fill="#d63a2f">4</text><path d="M350 170 H420" stroke="#d63a2f" stroke-width="3.5"/><use href="#res" x="437" y="170"/><path d="M454 170 H520" stroke="#d63a2f" stroke-width="3.5"/><rect x="520" y="150" width="150" height="40" rx="8" fill="#222" stroke="#444"/><text x="595" y="167" text-anchor="middle" font-size="12" font-weight="800" fill="#eee">Q1 · IRLZ44N</text><text x="595" y="182" text-anchor="middle" font-size="10" fill="#aaa">10 kΩ gate→source</text><text x="526" y="174" font-size="9" fill="#888">G</text><text x="660" y="174" font-size="9" fill="#888">D</text><path d="M670 170 H800" stroke="#9a9a9a" stroke-width="8"/><path d="M670 170 H800" stroke="#1a1a1a" stroke-width="4.5"/><path d="M595 190 V194" stroke="#888" stroke-width="2.5"/><use href="#gnd" x="595" y="194"/><text x="606" y="206" font-size="9" fill="#888">S</text><text x="342" y="244" text-anchor="end" font-size="12" font-weight="800" fill="#2f9e4a">5</text><path d="M350 240 H420" stroke="#2f9e4a" stroke-width="3.5"/><use href="#res" x="437" y="240"/><path d="M454 240 H520" stroke="#2f9e4a" stroke-width="3.5"/><rect x="520" y="220" width="150" height="40" rx="8" fill="#222" stroke="#444"/><text x="595" y="237" text-anchor="middle" font-size="12" font-weight="800" fill="#eee">Q2 · IRLZ44N</text><text x="595" y="252" text-anchor="middle" font-size="10" fill="#aaa">10 kΩ gate→source</text><text x="526" y="244" font-size="9" fill="#888">G</text><text x="660" y="244" font-size="9" fill="#888">D</text><path d="M670 240 H800" stroke="#2f9e4a" stroke-width="4.5"/><path d="M595 260 V264" stroke="#888" stroke-width="2.5"/><use href="#gnd" x="595" y="264"/><text x="606" y="276" font-size="9" fill="#888">S</text><text x="342" y="314" text-anchor="end" font-size="12" font-weight="800" fill="#2f74d0">6</text><path d="M350 310 H420" stroke="#2f74d0" stroke-width="3.5"/><use href="#res" x="437" y="310"/><path d="M454 310 H520" stroke="#2f74d0" stroke-width="3.5"/><rect x="520" y="290" width="150" height="40" rx="8" fill="#222" stroke="#444"/><text x="595" y="307" text-anchor="middle" font-size="12" font-weight="800" fill="#eee">Q3 · IRLZ44N</text><text x="595" y="322" text-anchor="middle" font-size="10" fill="#aaa">10 kΩ gate→source</text><text x="526" y="314" font-size="9" fill="#888">G</text><text x="660" y="314" font-size="9" fill="#888">D</text><path d="M670 310 H800" stroke="#9fd3ea" stroke-width="4.5"/><path d="M595 330 V334" stroke="#888" stroke-width="2.5"/><use href="#gnd" x="595" y="334"/><text x="606" y="346" font-size="9" fill="#888">S</text><text x="437" y="155" text-anchor="middle" font-size="10" fill="currentColor">100 Ω</text>
+      <!-- MT3608 -->
+      <rect x="560" y="18" width="170" height="64" rx="10" fill="#2a6fd6"/>
+      <text x="645" y="46" text-anchor="middle" font-size="14" fill="#fff" font-weight="800">MT3608</text>
+      <text x="645" y="64" text-anchor="middle" font-size="11" fill="#dbe8ff">VIN+ ← 5 V · set 24.0 V</text>
+      <path d="M645 82 V92" stroke="#888" stroke-width="2.5"/><use href="#gnd" x="645" y="92"/>
+      <text x="664" y="106" font-size="10" fill="currentColor">VIN− / VOUT−</text>
+      <path d="M730 50 H790 V130 H800" stroke="#e8902a" stroke-width="5" fill="none"/>
+      <text x="744" y="42" font-size="12" font-weight="800" fill="#e8902a">VOUT+ 24 V</text>
+      <!-- Lamp -->
+      <rect x="800" y="110" width="166" height="250" rx="18" fill="none" stroke="#e8902a" stroke-width="2.5" stroke-dasharray="7 5"/>
+      <text x="883" y="345" text-anchor="middle" font-size="13" font-weight="800" fill="currentColor">Lamp LEDs</text>
+      <g font-size="11.5" font-weight="700" fill="currentColor">
+        <text x="812" y="134">white (LED +)</text>
+        <text x="812" y="174">black · red</text>
+        <text x="812" y="244">green</text>
+        <text x="812" y="314">transparent · blue</text>
+      </g>
+    </svg>
+    <figcaption>Recreated wiring for the whole lamp. Red = 5 V, orange = 24 V. Every ⏚ symbol is the same GND: join them all to the cord-black wire.</figcaption>
+  </div>
+  <ol class="do" style="margin-top:14px">
+    <li>Charger unplugged. Join the cord-white wire, C3 5V and MT3608 VIN+ (the 5 V rail).</li>
+    <li>Join the cord-black wire, C3 G, MT3608 VIN−/VOUT− and all three MOSFET sources (the GND rail).</li>
+    <li>MT3608 VOUT+ → <b>LED white</b>.</li>
+    <li>Gates and drains as in step 8.</li>
+  </ol>
+</section>
+
+<section class="step" id="s10" data-title="Test">
+  <div class="shead"><div class="snum">10</div><h3>Test one colour at a time</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <ol class="do">
+      <li>Start with only <b>Q1 (red)</b> connected. Plug in the charger.</li>
+      <li>Open WLED and pick pure red. The lamp should glow red.</li>
+      <li>Drag brightness from 1% to 100%. <b>Smooth dimming = genuine IRLZ44N.</b> Dim at 100% or dead = a fake, so swap in a spare.</li>
+      <li>Touch the MOSFET. Warm is fine, too hot to hold is not.</li>
+      <li>Unplug, add Q2 (green), test. Then Q3 (blue).</li>
+      <li>Wrong colour showing? Don't rewire: swap the GPIO numbers in LED Preferences.</li>
+    </ol>
+    <div>
+      <div class="callout tip"><b>Voltage check with the lamp on full white:</b>
+        <ul style="margin:6px 0 0;padding-left:18px">
+          <li>cord-white to cord-black inside the lamp: <b>above 4.5 V</b> is fine (the thin cord loses a little)</li>
+          <li>MT3608 VOUT: still about 24 V</li>
+        </ul>
+      </div>
+      <div class="callout warn">Flickering, or the C3 rebooting at high brightness, means the charger is too weak or the cord drops too much. Try a 2 A+ charger first.</div>
+    </div>
+  </div>
+</section>
+
+<section class="step" id="s11" data-title="Finish">
+  <div class="shead"><div class="snum">11</div><h3>Make it permanent and close up</h3><label class="check"><input type="checkbox">Done</label></div>
+  <div class="grid">
+    <ol class="do">
+      <li>Move the circuit from the breadboard to stripboard, or solder it point-to-point.</li>
+      <li>Bend the MOSFETs flat. Tape every bare joint and the MT3608's pins.</li>
+      <li>Lay the parts along the channel so no bare metal touches another part.</li>
+      <li>Power on once more with the cover off and run a full colour cycle.</li>
+      <li>Screw the cover back on and refit the sticker.</li>
+      <li>In WLED: name it, set a default preset, and add it to Home Assistant (auto-discovered).</li>
+    </ol>
+    <figure><img src="img/hero.jpg" alt="Finished lamp"><figcaption>Done. Photo: caffeinated-labs.</figcaption></figure>
+  </div>
+</section>
+
+<p class="foot">Lamp photos and WLED screenshot: <a href="https://github.com/caffeinated-labs/Caffeinated-AFTONSPARV">caffeinated-labs/Caffeinated-AFTONSPARV</a> (OSHW DE000140). Part photos: the Amazon listings for the SuperMini, MT3608 and IRLZ44N. Diagrams are recreations. Full notes are in <code>../PLAN.md</code>.</p>
+</div>
+
+<script>
+// Build the SuperMini pin columns (back view; matches the listing's pinout graphic)
+(function(){
+  const svg=document.querySelector('svg[aria-label^="ESP32-C3 SuperMini"]'); if(!svg) return;
+  const L=['5V','G','3.3','4','3','2','1','0'], R=['5','6','7','8','9','10','20','21'];
+  const hot={'5V':'#d63a2f','G':'#888','4':'#d63a2f','5':'#2f9e4a','6':'#2f74d0'};
+  const avoid=new Set(['3.3','2','8','9','20','21']);
+  const ns='http://www.w3.org/2000/svg';
+  const add=(tag,attrs,txt)=>{const e=document.createElementNS(ns,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(txt!=null)e.textContent=txt;svg.appendChild(e);return e};
+  [[L,135,'end',90,108],[R,285,'start',330,312]].forEach(([pins,x,anchor,tx,lx])=>{
+    pins.forEach((p,i)=>{
+      const y=76+i*28;
+      const c=hot[p];
+      add('circle',{cx:x,cy:y,r:8,fill:c?c:'#c9a33a',stroke:'#7a5a12','stroke-width':1.5});
+      add('text',{x:lx,y:y+4,'text-anchor':anchor==='end'?'end':'start','font-size':12,'font-weight':800,fill:c?c:(avoid.has(p)?'#999':'currentColor')},p);
+      if(c){ add('text',{x:anchor==='end'?lx-26:lx+26,y:y+4,'text-anchor':anchor,'font-size':11,'font-weight':600,fill:c},
+        ({'5V':'← 5 V rail','G':'← GND','4':'→ red','5':'→ green','6':'→ blue'})[p]); }
+    });
+  });
+})();
+
+// Progress + nav + persistence
+(function(){
+  const steps=[...document.querySelectorAll('section.step')], toc=document.getElementById('toc');
+  const key='aftonsparv-guide-v1'; let saved={}; try{saved=JSON.parse(localStorage.getItem(key)||'{}')}catch(e){}
+  steps.forEach((s,i)=>{
+    const a=document.createElement('a'); a.href='#'+s.id; a.textContent=(i+1)+'. '+s.dataset.title; toc.appendChild(a); s._a=a;
+    const cb=s.querySelector('.check input'); cb.checked=!!saved[s.id];
+    cb.addEventListener('change',()=>{saved[s.id]=cb.checked;try{localStorage.setItem(key,JSON.stringify(saved))}catch(e){};upd()});
+  });
+  function upd(){let d=0;steps.forEach(s=>{const on=s.querySelector('.check input').checked;s.classList.toggle('done',on);s._a.classList.toggle('done',on);if(on)d++});
+    document.getElementById('bar').style.width=(d/steps.length*100)+'%';
+    document.getElementById('progtext').textContent=d+' of '+steps.length+' steps done. Ticks are saved in this browser.';}
+  upd();
+})();
+</script>
+</body>
+</html>

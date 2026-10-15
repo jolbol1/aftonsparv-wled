@@ -1,0 +1,69 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Power joins</title><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#1d1d1f)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+ol{margin:0;padding-left:22px;font-size:13.8px}
+ol li{margin:0 0 5px}
+.note{font-size:13px;opacity:.78}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 720 360" aria-label="5 V and GND joins">
+<!-- socket -->
+<rect x="14" y="120" width="70" height="80" rx="8" fill="#fbfbf9" stroke="#8f8a7e"/>
+<text x="49" y="156" font-size="10" text-anchor="middle" fill="#6b675e">lamp DC</text><text x="49" y="169" font-size="10" text-anchor="middle" fill="#6b675e">socket</text>
+<text x="49" y="184" font-size="9" text-anchor="middle" fill="#6b675e">(USB lead)</text>
+<!-- plain white CORD+ to join A -->
+<path d="M84 136 C130 136 150 80 210 80" stroke="#8f8a7e" stroke-width="7.5" fill="none" stroke-linecap="round"/><path d="M84 136 C130 136 150 80 210 80" stroke="#fbfbf9" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="14" y="112" font-size="10.5" font-weight="700" fill="#55524a">CORD+ (plain white)</text>
+<!-- black CORD- to join B -->
+<path d="M84 184 C130 184 150 250 210 250" stroke="#222" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="14" y="220" font-size="10.5" font-weight="700" fill="#55524a">CORD− (black)</text>
+<!-- join A -->
+<circle cx="222" cy="80" r="16" fill="#e9d48a" stroke="#b39a3a" stroke-width="2"/>
+<text x="222" y="84" font-size="11" font-weight="800" text-anchor="middle" fill="#5a4a10">A</text>
+<text x="222" y="46" font-size="12" font-weight="800" text-anchor="middle" fill="#d63a2f">5 V join</text>
+<!-- join B -->
+<circle cx="222" cy="250" r="16" fill="#cfcfcf" stroke="#888" stroke-width="2"/>
+<text x="222" y="254" font-size="11" font-weight="800" text-anchor="middle" fill="#333">B</text>
+<text x="222" y="292" font-size="12" font-weight="800" text-anchor="middle" fill="#222">GND join</text>
+<!-- MT3608 -->
+<rect x="400" y="120" width="150" height="80" rx="8" fill="#1f5fb8" stroke="#16468a"/>
+<text x="475" y="164" font-size="11" fill="#fff" text-anchor="middle" font-weight="700">MT3608 · 24 V</text>
+<rect x="528" y="128" width="16" height="14" rx="2" fill="#c9ccd1"/><text x="520" y="139" font-size="9" fill="#fff" text-anchor="end">VIN+</text>
+<rect x="528" y="178" width="16" height="14" rx="2" fill="#c9ccd1"/><text x="520" y="189" font-size="9" fill="#fff" text-anchor="end">VIN−</text>
+<rect x="406" y="128" width="16" height="14" rx="2" fill="#c9ccd1"/><text x="428" y="139" font-size="9" fill="#fff">VOUT+</text>
+<rect x="406" y="178" width="16" height="14" rx="2" fill="#c9ccd1"/><text x="428" y="189" font-size="9" fill="#fff">VOUT−</text>
+<!-- VIN+ red to A -->
+<path d="M544 135 C600 135 600 30 400 30 C300 30 260 70 236 76" stroke="#d63a2f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+<text x="560" y="40" font-size="10" fill="#d63a2f" font-weight="700">VIN+ red (from step 7)</text>
+<!-- VIN- black to B -->
+<path d="M544 185 C610 185 610 320 400 320 C300 320 260 262 236 256" stroke="#222" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+<text x="560" y="330" font-size="10" fill="#222" font-weight="700">VIN− black (from step 7)</text>
+<!-- C3 -->
+<rect x="250" y="130" width="70" height="60" rx="6" fill="#1d2833"/>
+<text x="285" y="164" font-size="10" fill="#cfd6de" text-anchor="middle" font-weight="700">C3</text>
+<path d="M270 130 C270 110 250 96 236 88" stroke="#d63a2f" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+<text x="290" y="112" font-size="10" fill="#d63a2f" font-weight="700">5V red</text>
+<path d="M270 190 C270 214 250 236 236 242" stroke="#222" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+<text x="290" y="214" font-size="10" fill="#222" font-weight="700">G black</text>
+<!-- VOUT side -->
+<path d="M406 135 C392 124 384 118 372 112" stroke="#e8902a" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-dasharray="7 4"/>
+<text x="470" y="106" font-size="10" fill="#c26a12" font-weight="800" text-anchor="middle">VOUT+ → LED white, flag "24V" (later)</text>
+<path d="M406 185 C396 196 390 202 380 208" stroke="#555" stroke-width="4" fill="none" stroke-linecap="round" stroke-dasharray="7 4"/>
+<text x="470" y="222" font-size="10" fill="#555" font-weight="700" text-anchor="middle">VOUT− ← 3 source wires (later)</text>
+</svg></div>
+<ol>
+<li><b>Unplug the USB lead.</b> Undo any temporary step-7 twists.</li>
+<li>Lay the C3 and MT3608 where they'll sit, then cut their red and black wires to reach the socket wires. <b>Don't shorten the socket wires.</b></li>
+<li><b>Join A (5 V):</b> socket <b>plain white</b> + MT3608 <b>red</b> + C3 <b>red</b>. Strip 8 mm, pigtail, solder, snip to 10 mm, fold, tape.</li>
+<li><b>Join B (GND):</b> socket <b>black</b> + MT3608 <b>black</b> + C3 <b>black</b>. Same again, and keep it apart from A.</li>
+</ol>
+<table style="border-collapse:collapse;width:100%;font-size:13.5px">
+<tr><th style="text-align:left;padding:6px 8px;opacity:.7;font-size:12px">Beep check (unplugged)</th><th style="text-align:left;padding:6px 8px;opacity:.7;font-size:12px">Expect</th></tr>
+<tr><td style="padding:6px 8px">socket plain-white lug ↔ C3 5V pad</td><td style="padding:6px 8px"><b>beep</b></td></tr>
+<tr><td style="padding:6px 8px">socket black lug ↔ C3 G pad</td><td style="padding:6px 8px"><b>beep</b></td></tr>
+<tr><td style="padding:6px 8px">plain-white lug ↔ black lug</td><td style="padding:6px 8px"><b>no beep</b></td></tr>
+</table>
+<div class="note">Then the first power-up: USB lead into the charger, C3 5V ↔ G ≈ 5 V, MT3608 VOUT ≈ 24 V. The dashed VOUT wires come next.</div>
+</div></body></html>

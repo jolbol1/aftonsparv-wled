@@ -1,0 +1,75 @@
+<!doctype html><html><head><meta charset="utf-8"><title>The 4-core lead</title><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:#1d1d1f;background:#fff;width:1200px}
+.panel{background:#f3efe6;border-radius:12px;padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.card{background:#fff;border:1px solid #e3e1db;border-radius:12px;padding:12px 14px;font-size:15px}
+.card h3{margin:0 0 4px;font-size:17px}
+.card.pick{border:2px solid #2f9e66}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:#2f9e66;margin-left:6px}
+.warn{margin-top:12px;font-size:15px;background:#fdecea;border-radius:10px;padding:10px 14px}
+</style></head><body><div class="panel">
+<svg viewBox="0 0 1170 470" aria-label="4-core lead from lamp to SP805E">
+<!-- lamp base -->
+<rect x="10" y="30" width="330" height="410" rx="22" fill="#fff" stroke="#cfcac0" stroke-width="3"/>
+<text x="30" y="68" font-size="22" font-weight="800">Lamp base</text>
+<text x="30" y="92" font-size="15" fill="#6b675e">wires from the LED ring</text>
+<!-- socket hole -->
+<rect x="328" y="200" width="24" height="100" rx="6" fill="#e8e3d8" stroke="#cfcac0" stroke-width="2"/>
+<text x="372" y="312" font-size="14" fill="#6b675e">through the old DC socket hole</text>
+<!-- lamp wires and joints -->
+<g font-size="17" font-weight="700">
+<path d="M40 140 L200 140" stroke="#f2f2f2" stroke-width="9"/><path d="M40 140 L200 140" stroke="#b9b4aa" stroke-width="11" fill="none" opacity=".35"/>
+<text x="40" y="128">printed white · LED+</text>
+<path d="M40 200 L200 200" stroke="#222" stroke-width="9"/><text x="40" y="188">black · red</text>
+<path d="M40 260 L200 260" stroke="#2f9e4a" stroke-width="9"/><text x="40" y="248">green · green</text>
+<path d="M40 320 L200 320" stroke="#bfe3f2" stroke-width="9"/><text x="40" y="308">transparent · blue</text>
+</g>
+<g fill="#1d1d1f"><rect x="196" y="131" width="40" height="18" rx="4"/><rect x="196" y="191" width="40" height="18" rx="4"/><rect x="196" y="251" width="40" height="18" rx="4"/><rect x="196" y="311" width="40" height="18" rx="4"/></g>
+<text x="216" y="380" font-size="14" fill="#6b675e" text-anchor="middle">heat-shrink each joint</text>
+<!-- cores fan into cable -->
+<g stroke-width="7" fill="none" stroke-linecap="round">
+<path d="M236 140 C285 140 290 236 320 236" stroke="#d63a2f"/>
+<path d="M236 200 C280 200 290 246 320 246" stroke="#555"/>
+<path d="M236 260 C280 260 290 256 320 256" stroke="#2f9e4a"/>
+<path d="M236 320 C285 320 290 266 320 266" stroke="#e9e6df"/>
+</g>
+<!-- knot -->
+<circle cx="318" cy="251" r="20" fill="#9a958a"/>
+<text x="372" y="292" font-size="14" fill="#6b675e">knot inside for strain relief</text>
+<!-- cable -->
+<path d="M338 251 C480 251 520 180 640 180 C760 180 760 251 800 251" stroke="#9a958a" stroke-width="22" fill="none" stroke-linecap="round"/>
+<text x="560" y="118" font-size="20" font-weight="800" text-anchor="middle">4-core cable, about 1 m</text>
+<text x="560" y="140" font-size="15" fill="#6b675e" text-anchor="middle">carries 24 V at about 0.1 A, so thin wire is fine</text>
+<!-- fan out to terminals -->
+<g stroke-width="7" fill="none" stroke-linecap="round">
+<path d="M800 251 C840 251 840 150 880 150" stroke="#d63a2f"/>
+<path d="M800 251 C840 251 840 210 880 210" stroke="#555"/>
+<path d="M800 251 C840 251 840 270 880 270" stroke="#2f9e4a"/>
+<path d="M800 251 C840 251 840 330 880 330" stroke="#e9e6df"/>
+</g>
+<!-- SP805E -->
+<rect x="880" y="30" width="270" height="410" rx="22" fill="#fff" stroke="#cfcac0" stroke-width="3"/>
+<text x="900" y="68" font-size="22" font-weight="800">SP805E</text>
+<g font-size="18" font-weight="700">
+<circle cx="900" cy="150" r="11" fill="none" stroke="#d63a2f" stroke-width="4"/><text x="922" y="156">VCC</text>
+<circle cx="900" cy="210" r="11" fill="none" stroke="#555" stroke-width="4"/><text x="922" y="216">PWM-R <tspan font-weight="400" fill="#6b675e">IO25</tspan></text>
+<circle cx="900" cy="270" r="11" fill="none" stroke="#2f9e4a" stroke-width="4"/><text x="922" y="276">PWM-G <tspan font-weight="400" fill="#6b675e">IO26</tspan></text>
+<circle cx="900" cy="330" r="11" fill="none" stroke="#9a958a" stroke-width="4"/><text x="922" y="336">PWM-B <tspan font-weight="400" fill="#6b675e">IO27</tspan></text>
+</g>
+<!-- power -->
+<path d="M1015 470 L1015 420" stroke="#2b2b2b" stroke-width="12"/>
+<circle cx="1015" cy="405" r="16" fill="none" stroke="#e8902a" stroke-width="4"/>
+<text x="1040" y="400" font-size="16" font-weight="800" fill="#c26a12">24 V in</text>
+<text x="1040" y="420" font-size="14" fill="#6b675e">DC jack</text>
+<text x="600" y="400" font-size="15" fill="#6b675e" text-anchor="middle">USB-cable colours shown: red = 24 V, black = R, green = G, white = B</text>
+<text x="600" y="424" font-size="15" fill="#6b675e" text-anchor="middle">Any 4 cores work. Note which is which and keep to it at both ends.</text>
+</svg>
+<div class="cards">
+<div class="card pick"><h3>Old USB 2.0 cable<span class="tag">WHAT WE USED</span></h3>Any USB-A to micro/C lead. Cut both plugs off. It has four cores: red, black, green, white. Some cheap leads have no black and use the bare braid instead, which works fine as one of the four.</div>
+<div class="card"><h3>4-pin RGB strip extension</h3>JST-SM or 4-pin LED-strip extension, rated 12/24 V. It gives you a plug, so the lamp can be unplugged from the controller.</div>
+<div class="card"><h3>Any 4-core signal cable</h3>Alarm, phone or speaker cable with four cores, 24–28 AWG or thicker. Anything rated for 24 V at 0.5 A is plenty.</div>
+</div>
+<div class="warn"><b>Don't leave USB plugs on the lead.</b> It carries 24 V, and plugging it into a USB port would damage whatever's on the other end.</div>
+</div></body></html>

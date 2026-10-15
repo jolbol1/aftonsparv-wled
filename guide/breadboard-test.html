@@ -1,0 +1,109 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#ddd)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.board{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:6px 22px;margin:0;padding:0;list-style:none;font-size:13.5px}
+.legend li{display:flex;gap:8px;align-items:baseline}
+.b{flex:none;width:20px;height:20px;border-radius:50%;background:#e8902a;color:#fff;font-weight:800;font-size:11.5px;display:inline-grid;place-items:center;transform:translateY(4px)}
+.note{font-size:13px;color:var(--muted-foreground,#999)}
+.note b{color:var(--foreground,#ddd)}
+</style></head><body><div class="wrap">
+<div class="board"><svg viewBox="150 14 520 342" aria-label="Breadboard layout with the C3 on the board, one MOSFET channel">
+<rect x="250" y="22" width="406" height="330" rx="8" fill="#fbfaf6" stroke="#d8d2c4"/>
+<line x1="256" y1="34" x2="650" y2="34" stroke="#d63a2f" stroke-width="2"/>
+<line x1="256" y1="84" x2="650" y2="84" stroke="#2f74d0" stroke-width="2"/>
+<text x="642" y="30" font-size="12" font-weight="800" fill="#d63a2f" text-anchor="middle">+</text>
+<text x="642" y="99" font-size="14" font-weight="800" fill="#2f74d0" text-anchor="middle">−</text>
+<rect x="254" y="212" width="398" height="32" fill="#ece7dc"/>
+<g id="holes"></g>
+
+<!-- ESP32-C3 straddling the gap, chip side up, USB-C left -->
+<rect x="232" y="219" width="34" height="38" rx="5" fill="#b9bcc2" stroke="#8a8d93"/>
+<text x="226" y="236" font-size="10.5" text-anchor="end" fill="#6b675e">USB-C</text>
+<text x="226" y="249" font-size="10.5" text-anchor="end" fill="#6b675e">→ Mac</text>
+<rect x="262" y="164" width="174" height="148" rx="7" fill="#1d2833"/>
+<rect x="330" y="220" width="36" height="36" rx="3" fill="#3a4652" transform="rotate(45 348 238)"/>
+<text x="348" y="241" font-size="8" fill="#cfd6de" text-anchor="middle" font-weight="700">ESP32-C3</text>
+<g id="c3pins"></g>
+
+<!-- jumpers -->
+<g fill="none" stroke-width="4.5" stroke-linecap="round">
+<path d="M280 118 C280 90 262 70 262 48" stroke="#d63a2f"/>
+<path d="M300 118 L300 70" stroke="#222"/>
+<path d="M520 118 L520 70" stroke="#222"/>
+</g>
+<g fill="#888"><circle cx="280" cy="118" r="3"/><circle cx="260" cy="48" r="3"/><circle cx="300" cy="118" r="3"/><circle cx="300" cy="70" r="3"/><circle cx="520" cy="118" r="3"/><circle cx="520" cy="70" r="3"/></g>
+
+<!-- 100 ohm: GPIO4 col5 row b -> gate col12 row b -->
+<line x1="340" y1="138" x2="480" y2="138" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="387" y="131" width="46" height="14" rx="6" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="395" y="131" width="4" height="14" fill="#7b4a1e"/><rect x="403" y="131" width="4" height="14" fill="#111"/><rect x="411" y="131" width="4" height="14" fill="#7b4a1e"/><rect x="423" y="131" width="3" height="14" fill="#c8a240"/>
+<circle cx="340" cy="138" r="3" fill="#777"/><circle cx="480" cy="138" r="3" fill="#777"/>
+
+<!-- 10k: gate col12 row c -> source col14 row c -->
+<line x1="480" y1="158" x2="520" y2="158" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="487" y="152" width="26" height="12" rx="5" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="491" y="152" width="3" height="12" fill="#7b4a1e"/><rect x="497" y="152" width="3" height="12" fill="#111"/><rect x="503" y="152" width="3" height="12" fill="#e8902a"/>
+<circle cx="480" cy="158" r="3" fill="#777"/><circle cx="520" cy="158" r="3" fill="#777"/>
+
+<!-- LED: cathode drain col13 row b, anode col17 row b -->
+<line x1="500" y1="138" x2="529" y2="138" stroke="#9a9a9a" stroke-width="2"/>
+<line x1="551" y1="138" x2="580" y2="138" stroke="#9a9a9a" stroke-width="2"/>
+<circle cx="540" cy="138" r="12" fill="#ff5a4d" stroke="#b3261e" stroke-width="1.5"/>
+<line x1="529" y1="129" x2="529" y2="147" stroke="#b3261e" stroke-width="3"/>
+<circle cx="500" cy="138" r="3" fill="#777"/><circle cx="580" cy="138" r="3" fill="#777"/>
+<text x="508" y="128" font-size="9" fill="#6b675e" text-anchor="middle">short</text>
+<text x="568" y="128" font-size="9" fill="#6b675e" text-anchor="middle">long</text>
+
+<!-- 220 ohm: col17 row a -> + rail -->
+<line x1="580" y1="118" x2="580" y2="48" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="573" y="86" width="14" height="26" rx="5" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="573" y="90" width="14" height="3" fill="#d63a2f"/><rect x="573" y="96" width="14" height="3" fill="#d63a2f"/><rect x="573" y="102" width="14" height="3" fill="#7b4a1e"/>
+<circle cx="580" cy="118" r="3" fill="#777"/><circle cx="580" cy="48" r="3" fill="#777"/>
+
+<!-- MOSFET legs row e cols 12-14 -->
+<rect x="470" y="185" width="60" height="7" fill="#c9ccd1" stroke="#8a8d93"/>
+<rect x="466" y="191" width="68" height="15" rx="2" fill="#151515"/>
+<text x="500" y="202" font-size="8.5" fill="#ddd" text-anchor="middle" font-weight="700">IRLZ44N</text>
+<g font-size="11" font-weight="800" text-anchor="middle"><text x="480" y="225" fill="#e8902a">G</text><text x="500" y="225" fill="#555">D</text><text x="520" y="225" fill="#222">S</text></g>
+<text x="500" y="239" font-size="9" fill="#6b675e" text-anchor="middle">printing faces you ↓, tab at back</text>
+<g id="badges"></g>
+</svg></div>
+<ol class="legend">
+<li><span class="b">1</span><span><b>C3</b> across the centre gap, chip side up, USB-C off the left edge. <b>5V</b> ends up top-left</span></li>
+<li><span class="b">2</span><span>Jumper: <b>5V</b> column → <b>+ rail</b></span></li>
+<li><span class="b">3</span><span>Jumper: <b>G</b> column → <b>− rail</b></span></li>
+<li><span class="b">4</span><span><b>100 Ω</b> (brown-black-brown): <b>GPIO 4</b> column → gate column</span></li>
+<li><span class="b">5</span><span><b>IRLZ44N</b>: three columns, <b>G · D · S</b> left to right</span></li>
+<li><span class="b">6</span><span><b>10 kΩ</b> (brown-black-orange): gate column → source column</span></li>
+<li><span class="b">7</span><span>Jumper: <b>source</b> column → <b>− rail</b></span></li>
+<li><span class="b">8</span><span><b>Red LED</b>: short leg / flat side in the <b>drain</b> column</span></li>
+<li><span class="b">9</span><span><b>220 Ω</b> (red-red-brown): LED long-leg column → <b>+ rail</b></span></li>
+</ol>
+<div class="note"><b>Check your C3's printed labels.</b> If it's the other way round (USB-C to the right), the pins land in different columns; just follow the labels. Each column of five holes (a–e) is one connection, so the exact row doesn't matter. Only use holes the C3 doesn't cover. <b>Current path:</b> 5V → 220 Ω → LED → drain → source → GND.</div>
+</div>
+<script>
+const ns='http://www.w3.org/2000/svg';
+const add=(p,t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e};
+const X=c=>240+c*20, g=document.getElementById('holes');
+const TR=[118,138,158,178,198], BR=[258,278,298,318,338];
+for(let c=1;c<=20;c++){
+  for(const y of [48,70,...TR,...BR]) add(g,'rect',{x:X(c)-3.5,y:y-3.5,width:7,height:7,rx:1.5,fill:'#d9d3c6'});
+  if(c===1||c%5===0) add(g,'text',{x:X(c),y:106,'font-size':8.5,'text-anchor':'middle',fill:'#a39d90'},c);
+}
+'abcde'.split('').forEach((r,i)=>add(g,'text',{x:654,y:TR[i]+3,'font-size':8.5,'text-anchor':'end',fill:'#a39d90'},r));
+'fghij'.split('').forEach((r,i)=>add(g,'text',{x:654,y:BR[i]+3,'font-size':8.5,'text-anchor':'end',fill:'#a39d90'},r));
+const cp=document.getElementById('c3pins');
+const T=['5V','G','3.3','4','3','2','1','0'], B=['5','6','7','8','9','10','20','21'];
+const col={'5V':'#ff8a80','G':'#ffffff','4':'#ffb74d'};
+T.forEach((p,i)=>{const x=X(i+2);add(cp,'circle',{cx:x,cy:178,r:5,fill:col[p]?'#e8c45a':'#a88f45',stroke:'#7a5a12'});
+  add(cp,'text',{x,y:198,'font-size':p.length>2?8.5:10,'font-weight':800,'text-anchor':'middle',fill:col[p]||'#7f8a95'},p);});
+B.forEach((p,i)=>{const x=X(i+2);add(cp,'circle',{cx:x,cy:298,r:5,fill:'#a88f45',stroke:'#7a5a12'});
+  add(cp,'text',{x,y:286,'font-size':9,'font-weight':700,'text-anchor':'middle',fill:'#7f8a95'},p);});
+const bd=document.getElementById('badges');
+[[1,452,262],[2,264,94],[3,316,94],[4,410,122],[5,454,199],[6,462,168],[7,534,96],[8,540,168],[9,600,100]].forEach(([n,x,y])=>{
+  add(bd,'circle',{cx:x,cy:y,r:9,fill:'#e8902a',stroke:'#fff','stroke-width':1.5});
+  add(bd,'text',{x,y:y+3.8,'font-size':10.5,'font-weight':800,fill:'#fff','text-anchor':'middle'},n);});
+</script></body></html>

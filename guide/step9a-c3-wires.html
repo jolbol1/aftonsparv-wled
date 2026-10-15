@@ -1,0 +1,68 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Wire the C3</title><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#1d1d1f)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+ol{margin:0;padding-left:22px;font-size:13.8px}
+ol li{margin:0 0 5px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid color-mix(in srgb,currentColor 15%,transparent)}
+th{font-size:12px;opacity:.7;font-weight:600}
+.note{font-size:13px;opacity:.78}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 720 330" aria-label="Wires on the C3 pads">
+<rect x="337" y="14" width="46" height="24" rx="4" fill="#b9bcc2" stroke="#8a8d93"/>
+<text x="360" y="10" font-size="9.5" text-anchor="middle" fill="#6b675e">USB-C</text>
+<rect x="290" y="34" width="140" height="262" rx="9" fill="#1d2833"/>
+<rect x="342" y="150" width="36" height="36" rx="3" fill="#3a4652" transform="rotate(45 360 168)"/>
+<text x="360" y="50" font-size="8.5" fill="#9fb0c0" text-anchor="middle">chip side up</text>
+<g id="pins"></g>
+<!-- right column wires -->
+<path d="M414 62 L560 62" stroke="#d63a2f" stroke-width="5" stroke-linecap="round"/>
+<path d="M414 92 L560 92" stroke="#222" stroke-width="5" stroke-linecap="round"/>
+<path d="M414 152 C470 152 500 140 560 140" stroke="#e8902a" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="568" y="66" font-size="11.5" font-weight="800" fill="#d63a2f">5V → red, 8 cm</text>
+<text x="568" y="80" font-size="9.5" fill="#6b675e">to the 5 V join</text>
+<text x="568" y="98" font-size="11.5" font-weight="800" fill="#222">G → black, 8 cm</text>
+<text x="568" y="112" font-size="9.5" fill="#6b675e">to the GND join</text>
+<text x="568" y="144" font-size="11.5" font-weight="800" fill="#c26a12">4 ← module R gate wire</text>
+<!-- left column wires -->
+<path d="M306 62 C250 62 220 70 160 70" stroke="#2f9e4a" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M306 92 C250 92 220 104 160 104" stroke="#2f74d0" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="152" y="74" font-size="11.5" font-weight="800" fill="#2f7a3e" text-anchor="end">5 ← module G gate wire</text>
+<text x="152" y="108" font-size="11.5" font-weight="800" fill="#2f74d0" text-anchor="end">6 ← module B gate wire</text>
+<!-- neighbour warnings -->
+<rect x="30" y="262" width="230" height="58" rx="8" fill="#fff" stroke="#e0dbcf"/>
+<text x="44" y="282" font-size="11" font-weight="800" fill="#d6453a">5V and G are neighbours</text>
+<text x="44" y="297" font-size="10" fill="#55524a">a solder bridge there shorts the supply.</text>
+<text x="44" y="311" font-size="10" fill="#55524a">Check them with the meter after soldering.</text>
+<rect x="460" y="262" width="230" height="58" rx="8" fill="#fff" stroke="#e0dbcf"/>
+<text x="474" y="282" font-size="11" font-weight="800" fill="#55524a">Leave every other pad empty</text>
+<text x="474" y="297" font-size="10" fill="#55524a">3.3, 2, 8 and 9 especially:</text>
+<text x="474" y="311" font-size="10" fill="#55524a">2, 8 and 9 affect booting.</text>
+</svg></div>
+<ol>
+<li><b>Tin each pad first:</b> touch the iron to the pad for about 1 s and feed a tiny bit of solder in, so it's filled with a little dome.</li>
+<li><b>Tin each wire end:</b> strip 3 mm, twist, heat and add a little solder until it's silver.</li>
+<li>Hold the tinned wire on the tinned pad, touch the iron on top for about 2 s, and let go when they fuse. No extra solder needed.</li>
+<li>Do <b>5V</b> (red) and <b>G</b> (black) first, then <b>4</b>, <b>5</b>, <b>6</b> with each module's gate wire.</li>
+<li>Run the meter checks below <b>before</b> anything gets powered.</li>
+</ol>
+<table>
+<tr><th>Beep mode between</th><th>Expect</th></tr>
+<tr><td>5V pad ↔ G pad</td><td><b>No beep</b> (a beep means a short, so fix it first)</td></tr>
+<tr><td>4 ↔ 3.3, and 4 ↔ 3</td><td>No beep</td></tr>
+<tr><td>5 ↔ 6, and 6 ↔ 7</td><td>No beep</td></tr>
+<tr><td>Each module's <b>S</b> tip ↔ the black G wire's end</td><td>No beep yet (the GND joins come next)</td></tr>
+</table>
+<div class="note">Labels printed beside each hole win over this drawing. Wires can run along the board flat, so pick whichever side keeps them low for the channel.</div>
+</div>
+<script>
+const ns='http://www.w3.org/2000/svg',g=document.getElementById('pins');
+const add=(t,a,x)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;g.appendChild(e)};
+const R=['5V','G','3.3','4','3','2','1','0'],L=['5','6','7','8','9','10','20','21'];
+const hot={'5V':'#ff8a80','G':'#fff','4':'#ffb74d','5':'#6fd08a','6':'#7fb4ff'};
+R.forEach((p,i)=>{const y=62+i*30;add('circle',{cx:414,cy:y,r:7,fill:hot[p]?'#e8c45a':'#a88f45',stroke:'#7a5a12'});add('text',{x:398,y:y+4,'font-size':p.length>2?9.5:12,'font-weight':800,'text-anchor':'end',fill:hot[p]||'#7f8a95'},p)});
+L.forEach((p,i)=>{const y=62+i*30;add('circle',{cx:306,cy:y,r:7,fill:hot[p]?'#e8c45a':'#a88f45',stroke:'#7a5a12'});add('text',{x:322,y:y+4,'font-size':12,'font-weight':800,'text-anchor':'start',fill:hot[p]||'#7f8a95'},p)});
+</script></body></html>

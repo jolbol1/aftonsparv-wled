@@ -1,0 +1,111 @@
+<!doctype html><html><head><meta charset="utf-8"><title>AFTONSPARV: final wiring</title><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#1d1d1f)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13.2px}
+th,td{text-align:left;padding:5px 8px;border-bottom:1px solid color-mix(in srgb,currentColor 15%,transparent);vertical-align:top}
+th{font-size:12px;opacity:.7;font-weight:600}
+.note{font-size:13px;opacity:.8}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 780 470" aria-label="Final wiring">
+<defs><style>.h{stroke:#f3efe6;fill:none;stroke-linecap:round}</style></defs>
+<!-- box -->
+<rect x="110" y="24" width="510" height="430" rx="14" fill="#ece7dc" stroke="#8f8a7e" stroke-width="2" stroke-dasharray="7 5"/>
+<text x="124" y="44" font-size="12" font-weight="800" fill="#55524a">BOX</text>
+<!-- charger + lead -->
+<rect x="8" y="212" width="58" height="60" rx="8" fill="#fbfbf9" stroke="#8f8a7e"/><text x="37" y="238" font-size="9.5" text-anchor="middle" fill="#55524a">USB</text><text x="37" y="251" font-size="9.5" text-anchor="middle" fill="#55524a">charger 2A+</text>
+<path d="M66 242 L128 242" stroke="#2b2b2b" stroke-width="7" stroke-linecap="round"/>
+<text x="96" y="230" font-size="8.5" text-anchor="middle" fill="#6b675e">USB lead</text>
+<!-- socket -->
+<rect x="124" y="222" width="34" height="42" rx="4" fill="#fbfbf9" stroke="#8f8a7e"/><text x="141" y="282" font-size="8.5" text-anchor="middle" fill="#6b675e">DC socket</text>
+<!-- 5V bus and GND bus -->
+<path d="M158 230 L176 230 L176 80 L372 80" stroke="#d63a2f" stroke-width="4" fill="none" stroke-linejoin="round"/>
+<text x="196" y="72" font-size="11" font-weight="800" fill="#d63a2f">5 V  (node A)</text>
+<path d="M158 256 L190 256 L190 420 L600 420" stroke="#222" stroke-width="4" fill="none" stroke-linejoin="round"/>
+<text x="200" y="440" font-size="11" font-weight="800" fill="#222">GND  (node B)</text>
+<text x="124" y="214" font-size="8" fill="#6b675e">plain white</text><text x="160" y="270" font-size="8" fill="#6b675e" transform="rotate(0)">black</text>
+<!-- capacitor -->
+<path d="M220 80 L220 228" stroke="#d63a2f" stroke-width="2.5"/><path d="M220 262 L220 420" stroke="#222" stroke-width="2.5"/>
+<rect x="208" y="228" width="24" height="34" rx="4" fill="#2b4a7a"/><rect x="208" y="254" width="24" height="8" fill="#9fb3d0"/>
+<circle cx="220" cy="80" r="3.5" fill="#d63a2f"/><circle cx="220" cy="420" r="3.5" fill="#222"/>
+<text x="236" y="276" font-size="10" font-weight="800" fill="#2b4a7a">C1</text>
+
+<!-- C3 -->
+<rect x="250" y="290" width="86" height="100" rx="7" fill="#1d2833"/>
+<text x="293" y="345" font-size="11" fill="#cfd6de" text-anchor="middle" font-weight="800">C3</text>
+<rect x="250" y="380" width="22" height="10" fill="#d6453a"/><text x="258" y="404" font-size="8.5" fill="#d6453a">antenna → box edge</text>
+<path d="M268 290 L268 80" stroke="#d63a2f" stroke-width="3"/><circle cx="268" cy="80" r="3.5" fill="#d63a2f"/>
+<text x="274" y="306" font-size="8.5" fill="#ff9a8f">5V</text>
+<path d="M300 390 L300 420" stroke="#222" stroke-width="3"/><circle cx="300" cy="420" r="3.5" fill="#222"/>
+<text x="304" y="386" font-size="8.5" fill="#ddd">G</text>
+<!-- MT3608 -->
+<rect x="362" y="104" width="96" height="62" rx="6" fill="#1f5fb8"/>
+<text x="410" y="140" font-size="10" fill="#fff" text-anchor="middle" font-weight="800">MT3608 24.0 V</text>
+<path d="M372 104 L372 80" stroke="#d63a2f" stroke-width="3"/><circle cx="372" cy="80" r="3.5" fill="#d63a2f"/>
+<text x="366" y="100" font-size="8" fill="#55524a" text-anchor="end">VIN+</text>
+<!-- gates (drawn before verticals that cross them get halos) -->
+<g fill="none" stroke-linecap="round">
+<path d="M336 310 L404 310" stroke="#e8902a" stroke-width="3"/><rect x="404" y="304" width="26" height="12" rx="5" fill="#e2c99a" stroke="#a8915f"/><path d="M430 310 L496 310" stroke="#e8902a" stroke-width="3"/>
+<path d="M336 340 L404 340" stroke="#2f9e4a" stroke-width="3"/><rect x="404" y="334" width="26" height="12" rx="5" fill="#e2c99a" stroke="#a8915f"/><path d="M430 340 L526 340" stroke="#2f9e4a" stroke-width="3"/>
+<path d="M336 370 L404 370" stroke="#2f74d0" stroke-width="3"/><rect x="404" y="364" width="26" height="12" rx="5" fill="#e2c99a" stroke="#a8915f"/><path d="M430 370 L556 370" stroke="#2f74d0" stroke-width="3"/>
+</g>
+<text x="342" y="304" font-size="8.5" fill="#c26a12" font-weight="700">4</text><text x="342" y="334" font-size="8.5" fill="#2f7a3e" font-weight="700">5</text><text x="342" y="364" font-size="8.5" fill="#2f74d0" font-weight="700">6</text>
+<text x="417" y="296" font-size="8.5" text-anchor="middle" fill="#6b675e">100 Ω</text>
+<!-- MT3608 VIN- and VOUT- to GND (cross gate lines) -->
+<path d="M380 166 L380 420" class="h" stroke-width="8"/><path d="M380 166 L380 420" stroke="#222" stroke-width="3"/>
+<path d="M448 166 L448 420" class="h" stroke-width="8"/><path d="M448 166 L448 420" stroke="#222" stroke-width="3"/>
+<circle cx="380" cy="420" r="3.5" fill="#222"/><circle cx="448" cy="420" r="3.5" fill="#222"/>
+<text x="384" y="178" font-size="8" fill="#55524a">VIN−</text><text x="444" y="178" font-size="8" fill="#55524a" text-anchor="end">VOUT−</text>
+<!-- VOUT+ 24V -->
+<path d="M448 104 L448 50 L700 50" stroke="#e8902a" stroke-width="4" fill="none" stroke-linejoin="round"/>
+<text x="452" y="98" font-size="8" fill="#55524a">VOUT+</text>
+<text x="500" y="44" font-size="11" font-weight="800" fill="#c26a12">24 V</text>
+<!-- MOSFETs -->
+<g>
+<rect x="496" y="296" width="40" height="28" rx="4" fill="#151515"/><text x="516" y="314" font-size="10" fill="#fff" text-anchor="middle" font-weight="800">Q1</text>
+
+</g>
+<!-- reposition Q2/Q3 cleanly -->
+<rect x="526" y="326" width="40" height="28" rx="4" fill="#151515"/><text x="546" y="344" font-size="10" fill="#fff" text-anchor="middle" font-weight="800">Q2</text>
+<rect x="556" y="356" width="40" height="28" rx="4" fill="#151515"/><text x="576" y="374" font-size="10" fill="#fff" text-anchor="middle" font-weight="800">Q3</text>
+<!-- sources down to GND (Q1's crosses Q2/Q3 gates) -->
+<path d="M506 324 L506 420" class="h" stroke-width="8"/><path d="M506 324 L506 420" stroke="#222" stroke-width="3"/>
+<path d="M536 354 L536 420" class="h" stroke-width="8"/><path d="M536 354 L536 420" stroke="#222" stroke-width="3"/>
+<path d="M566 384 L566 420" stroke="#222" stroke-width="3"/>
+<circle cx="506" cy="420" r="3.5" fill="#222"/><circle cx="536" cy="420" r="3.5" fill="#222"/><circle cx="566" cy="420" r="3.5" fill="#222"/>
+<text x="560" y="412" font-size="8" fill="#55524a" text-anchor="end">S → VOUT− pad</text>
+<!-- drains to cable -->
+<path d="M536 300 L560 300 L560 120 L700 120" stroke="#7b5ea8" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<path d="M566 330 L586 330 L586 170 L700 170" stroke="#7b5ea8" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<path d="M596 360 L606 360 L606 220 L700 220" stroke="#7b5ea8" stroke-width="3" fill="none" stroke-linejoin="round"/>
+<text x="520" y="290" font-size="8.5" fill="#55524a">D</text>
+<text x="490" y="286" font-size="8.5" fill="#55524a" text-anchor="end">each Q: 10 kΩ G↔S</text>
+<!-- cable -->
+<rect x="626" y="36" width="34" height="198" rx="10" fill="#fbfbf9" stroke="#bdb8ad"/>
+<text x="643" y="252" font-size="8.5" text-anchor="middle" fill="#6b675e">4-wire</text><text x="643" y="263" font-size="8.5" text-anchor="middle" fill="#6b675e">lead</text>
+<circle cx="643" cy="50" r="5" fill="#d63a2f"/><circle cx="643" cy="120" r="5" fill="#9a9a9a"/><circle cx="643" cy="170" r="5" fill="#2f9e4a"/><circle cx="643" cy="220" r="5" fill="#fff" stroke="#999"/>
+<text x="672" y="44" font-size="8.5" fill="#d63a2f" font-weight="700">red</text><text x="672" y="114" font-size="8.5" fill="#666" font-weight="700">braid</text><text x="672" y="164" font-size="8.5" fill="#2f7a3e" font-weight="700">green</text><text x="672" y="214" font-size="8.5" fill="#555" font-weight="700">white</text>
+<!-- lamp -->
+<rect x="700" y="30" width="74" height="214" rx="12" fill="#fbfbf9" stroke="#8f8a7e" stroke-width="2"/>
+<text x="737" y="262" font-size="11" font-weight="800" text-anchor="middle" fill="#55524a">LAMP</text>
+<text x="706" y="54" font-size="8.5" fill="#55524a" font-weight="700">printed white</text><text x="706" y="66" font-size="8" fill="#6b675e">LED+</text>
+<text x="706" y="124" font-size="8.5" fill="#222" font-weight="700">black</text><text x="706" y="136" font-size="8" fill="#6b675e">red ch.</text>
+<text x="706" y="174" font-size="8.5" fill="#2f7a3e" font-weight="700">green</text><text x="706" y="186" font-size="8" fill="#6b675e">green ch.</text>
+<text x="706" y="224" font-size="8.5" fill="#2f74d0" font-weight="700">transparent</text><text x="706" y="236" font-size="8" fill="#6b675e">blue ch.</text>
+<text x="640" y="455" font-size="9" fill="#6b675e" text-anchor="middle">lines crossing with a gap are NOT connected · dots = joins</text>
+</svg></div>
+<table>
+<tr><th>From</th><th>To</th><th>Notes</th></tr>
+<tr><td>Socket plain white (+5 V)</td><td>node A: MT3608 VIN+ · C3 5V · C1 +</td><td>Keep these short and solid: this path carries ~0.7 A</td></tr>
+<tr><td>Socket black (GND)</td><td>node B: MT3608 VIN− · C3 G · C1 − (stripe)</td><td>VOUT− is the same ground inside the MT3608</td></tr>
+<tr><td>C3 pad 4 / 5 / 6</td><td>100 Ω → gate of Q1 / Q2 / Q3</td><td>10 kΩ from each gate to its source</td></tr>
+<tr><td>Q1 / Q2 / Q3 source</td><td>MT3608 VOUT− pad</td><td>all three into the one hole</td></tr>
+<tr><td>MT3608 VOUT+ (24 V)</td><td>cable red → lamp printed white</td><td>flag "24V"; never near the C3's 5V</td></tr>
+<tr><td>Q1 drain</td><td>cable braid → lamp black</td><td>red channel</td></tr>
+<tr><td>Q2 drain</td><td>cable green → lamp green</td><td>green channel</td></tr>
+<tr><td>Q3 drain</td><td>cable white → lamp transparent</td><td>blue channel</td></tr>
+</table>
+<div class="note"><b>The new part is C1</b>, the fix for the brownouts: a 470–1000 µF electrolytic right at the MT3608's VIN pads. Optionally fit a second one across the C3's 5V/G. In the box, keep the C3's antenna end at the box wall and 3–5 cm from the MT3608's coil.</div>
+</div></body></html>

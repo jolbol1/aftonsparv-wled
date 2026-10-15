@@ -1,0 +1,64 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#ddd)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+ol{margin:0;padding-left:22px;font-size:13.8px}
+ol li{margin:0 0 5px}
+.note{font-size:13px;color:var(--muted-foreground,#999)}
+.note b{color:var(--foreground,#ddd)}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 720 300" aria-label="Splice USB red/black onto the IKEA lead">
+<text x="20" y="22" font-size="12" font-weight="800" fill="#55524a">A · trim so the joints are staggered (2 cm apart)</text>
+<!-- USB side -->
+<path d="M20 90 L170 90" stroke="#2b2b2b" stroke-width="12" stroke-linecap="round"/>
+<text x="90" y="74" font-size="10.5" text-anchor="middle" fill="#6b675e">USB cable → charger</text>
+<path d="M172 86 C190 86 196 62 214 60 L250 60" stroke="#d63a2f" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M172 94 C190 94 196 118 214 120 L300 120" stroke="#222" stroke-width="5" fill="none" stroke-linecap="round"/>
+<text x="232" y="52" font-size="10" fill="#d63a2f" font-weight="700">red short</text>
+<text x="256" y="136" font-size="10" fill="#222" font-weight="700">black long</text>
+<!-- joints -->
+<circle cx="260" cy="60" r="9" fill="none" stroke="#2f9e66" stroke-width="2"/>
+<circle cx="310" cy="120" r="9" fill="none" stroke="#2f9e66" stroke-width="2"/>
+<!-- IKEA side -->
+<path d="M270 60 L330 60 C350 60 356 84 372 88" stroke="#8f8a7e" stroke-width="7.5" fill="none" stroke-linecap="round"/><path d="M270 60 L330 60 C350 60 356 84 372 88" stroke="#fbfbf9" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M320 120 L340 120 C356 120 360 98 372 94" stroke="#8f8a7e" stroke-width="7.5" fill="none" stroke-linecap="round"/><path d="M320 120 L340 120 C356 120 360 98 372 94" stroke="#fbfbf9" stroke-width="5" fill="none" stroke-linecap="round"/>
+<path d="M372 91 L520 91" stroke="#8f8a7e" stroke-width="11" stroke-linecap="round"/><path d="M372 91 L520 91" stroke="#fbfbf9" stroke-width="8" stroke-linecap="round"/>
+<text x="300" y="50" font-size="10" fill="#2f74d0" font-weight="800">IKEA + (long)</text>
+<text x="324" y="142" font-size="10" fill="#2f74d0" font-weight="800">IKEA − (short)</text>
+<text x="470" y="76" font-size="10.5" text-anchor="middle" fill="#6b675e">IKEA lead → barrel plug → lamp</text>
+<text x="560" y="58" font-size="11" fill="#2f9e66" font-weight="700">red ↔ IKEA +</text>
+<text x="560" y="74" font-size="11" fill="#2f9e66" font-weight="700">black ↔ IKEA −</text>
+<text x="560" y="98" font-size="10" fill="#6b675e">offset joints can't</text>
+<text x="560" y="111" font-size="10" fill="#6b675e">touch each other</text>
+<!-- B: the join -->
+<text x="20" y="178" font-size="12" font-weight="800" fill="#55524a">B · each joint</text>
+
+<text x="60" y="226" font-size="9.5" text-anchor="middle" fill="#6b675e">1. strip 5 mm</text>
+<path d="M20 204 L120 204" stroke="#d63a2f" stroke-width="5" stroke-linecap="round"/>
+<path d="M120 204 L150 204" stroke="#c98b3a" stroke-width="3.5"/>
+<path d="M146 204 L176 204" stroke="#c98b3a" stroke-width="3.5"/>
+<path d="M176 204 L240 204" stroke="#8f8a7e" stroke-width="7.5" stroke-linecap="round"/><path d="M176 204 L240 204" stroke="#fbfbf9" stroke-width="5" stroke-linecap="round"/>
+<text x="148" y="190" font-size="9.5" text-anchor="middle" fill="#6b675e">2. overlap + twist</text>
+<path d="M290 204 L380 204" stroke="#d63a2f" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="400" cy="204" rx="22" ry="6" fill="#c0c4c8" stroke="#8a8d93"/>
+<path d="M420 204 L490 204" stroke="#8f8a7e" stroke-width="7.5" stroke-linecap="round"/><path d="M420 204 L490 204" stroke="#fbfbf9" stroke-width="5" stroke-linecap="round"/>
+<text x="400" y="190" font-size="9.5" text-anchor="middle" fill="#6b675e">3. solder (shiny, smooth)</text>
+<path d="M540 204 L590 204" stroke="#d63a2f" stroke-width="5" stroke-linecap="round"/>
+<rect x="584" y="196" width="56" height="16" rx="4" fill="#7a8899"/>
+<path d="M640 204 L700 204" stroke="#8f8a7e" stroke-width="7.5" stroke-linecap="round"/><path d="M640 204 L700 204" stroke="#fbfbf9" stroke-width="5" stroke-linecap="round"/>
+<text x="612" y="190" font-size="9.5" text-anchor="middle" fill="#6b675e">4. tape it on its own</text>
+<rect x="30" y="246" width="660" height="44" rx="10" fill="#fff" stroke="#e0dbcf"/>
+<text x="50" y="265" font-size="12.5" fill="#55524a" font-weight="800">Then wrap tape over both joints and onto both cable jackets (strain relief).</text>
+<text x="50" y="282" font-size="11.5" fill="#55524a">No bare copper or solder may show anywhere. The two joints must never touch.</text>
+</svg></div>
+<ol>
+<li><b>Unplug the charger.</b> Pull the barrel plug out of the lamp too.</li>
+<li><b>Stagger the joints:</b> cut the IKEA <b>−</b> conductor and the USB <b>red</b> about 2 cm shorter than the other two, so the two joints sit 2 cm apart.</li>
+<li>Join <b>red → IKEA +</b> (the marked one): overlap the bare strands, twist them together tightly, and solder until the solder flows into the twist.</li>
+<li>Join <b>black → IKEA −</b> the same way.</li>
+<li><b>Tape each joint on its own</b> once it has cooled: 3 tight turns, starting on the insulation before the joint and finishing past it. Then wrap over <b>both</b> joints and onto both cable jackets.</li>
+</ol>
+<div class="note">Don't plug anything in yet. Next is a no-power short check, then the 5 V check at the lamp socket. Send me a photo of the finished joint before taping if you can.</div>
+</div></body></html>

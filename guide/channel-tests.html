@@ -1,0 +1,78 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#ddd)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.board{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid color-mix(in srgb,var(--foreground,#ddd) 15%,transparent)}
+th{font-size:12px;color:var(--muted-foreground,#999);font-weight:600}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.note{font-size:13px;color:var(--muted-foreground,#999)}
+.note b{color:var(--foreground,#ddd)}
+</style></head><body><div class="wrap">
+<div class="board"><svg viewBox="240 0 540 260" aria-label="C3 off the breadboard, wired by jumpers">
+<rect x="246" y="22" width="356" height="196" rx="8" fill="#fbfaf6" stroke="#d8d2c4"/>
+<line x1="252" y1="36" x2="596" y2="36" stroke="#d63a2f" stroke-width="2"/>
+<line x1="252" y1="80" x2="596" y2="80" stroke="#2f74d0" stroke-width="2"/>
+<text x="258" y="33" font-size="12" font-weight="800" fill="#d63a2f">+</text>
+<text x="258" y="96" font-size="14" font-weight="800" fill="#2f74d0">−</text>
+<rect x="250" y="196" width="348" height="18" fill="#ece7dc"/>
+<g id="holes"></g>
+<!-- C3 off-board, chip side up, USB at top -->
+<rect x="668" y="20" width="40" height="22" rx="4" fill="#b9bcc2" stroke="#8a8d93"/>
+<text x="760" y="14" font-size="9.5" text-anchor="end" fill="#6b675e">USB-C → Mac · chip side up</text>
+<rect x="626" y="40" width="124" height="216" rx="8" fill="#1d2833"/>
+<rect x="672" y="140" width="30" height="30" rx="3" fill="#3a4652" transform="rotate(45 687 155)"/>
+
+<g id="c3"></g>
+<!-- parts on the board -->
+<line x1="334" y1="148" x2="442" y2="148" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="365" y="141" width="46" height="14" rx="6" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="373" y="141" width="4" height="14" fill="#7b4a1e"/><rect x="381" y="141" width="4" height="14" fill="#111"/><rect x="389" y="141" width="4" height="14" fill="#7b4a1e"/><rect x="401" y="141" width="3" height="14" fill="#c8a240"/>
+<line x1="442" y1="112" x2="442" y2="68" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="436" y="80" width="12" height="26" rx="5" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="436" y="84" width="12" height="3" fill="#7b4a1e"/><rect x="436" y="90" width="12" height="3" fill="#111"/><rect x="436" y="96" width="12" height="3" fill="#e8902a"/>
+<line x1="460" y1="130" x2="485" y2="130" stroke="#9a9a9a" stroke-width="2"/><line x1="507" y1="130" x2="532" y2="130" stroke="#9a9a9a" stroke-width="2"/>
+<circle cx="496" cy="130" r="11" fill="#ff5a4d" stroke="#b3261e" stroke-width="1.5"/><line x1="485" y1="122" x2="485" y2="138" stroke="#b3261e" stroke-width="3"/>
+<line x1="532" y1="112" x2="532" y2="48" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="526" y="78" width="12" height="26" rx="5" fill="#e2c99a" stroke="#a8915f"/>
+<rect x="526" y="82" width="12" height="3" fill="#d63a2f"/><rect x="526" y="88" width="12" height="3" fill="#d63a2f"/><rect x="526" y="94" width="12" height="3" fill="#7b4a1e"/>
+<rect x="433" y="171" width="54" height="7" fill="#c9ccd1" stroke="#8a8d93"/>
+<rect x="429" y="177" width="62" height="15" rx="2" fill="#151515"/>
+<text x="460" y="188" font-size="8" fill="#ddd" text-anchor="middle" font-weight="700">IRLZ44N</text>
+<g font-size="9.5" font-weight="800" text-anchor="middle"><text x="442" y="208" fill="#e8902a">G</text><text x="460" y="208" fill="#555">D</text><text x="478" y="208" fill="#222">S</text></g>
+<!-- wires -->
+<g fill="none" stroke-width="4.5" stroke-linecap="round">
+<path d="M478 112 L478 68" stroke="#d4a017"/>
+<path d="M586 48 C620 36 650 30 700 30 C744 30 760 48 736 66" stroke="#d63a2f"/>
+<path d="M586 68 C620 58 640 46 690 46 C744 46 768 70 736 92" stroke="#222"/>
+<path d="M334 130 C330 0 600 -10 640 66" stroke="#e8902a"/>
+</g>
+<g fill="#888"><circle cx="478" cy="112" r="3"/><circle cx="478" cy="68" r="3"/><circle cx="586" cy="48" r="3"/><circle cx="586" cy="68" r="3"/><circle cx="334" cy="130" r="3"/>
+<circle cx="334" cy="148" r="3"/><circle cx="442" cy="148" r="3"/><circle cx="442" cy="112" r="3"/><circle cx="442" cy="68" r="3"/><circle cx="460" cy="130" r="3"/><circle cx="532" cy="130" r="3"/><circle cx="532" cy="112" r="3"/><circle cx="532" cy="48" r="3"/></g>
+<text x="380" y="10" font-size="9.5" fill="#c26a12" font-weight="700">signal wire: column 36 → C3 pin 4, 5 or 6</text>
+</svg></div>
+<table>
+<tr><th>Test</th><th>Signal wire on C3 pin</th><th>WLED colour</th><th>Expect</th></tr>
+<tr><td>A ✓</td><td><span class="dot" style="background:#e8902a"></span><b>4</b></td><td>pure red</td><td>Dims with brightness. Done</td></tr>
+<tr><td>B</td><td><span class="dot" style="background:#2f9e4a"></span><b>5</b></td><td>pure green</td><td>Dims; switch to pure red and it goes <b>off</b></td></tr>
+<tr><td>C</td><td><span class="dot" style="background:#2f74d0"></span><b>6</b></td><td>pure blue</td><td>Dims; pure red → off</td></tr>
+<tr><td>D</td><td>back to <b>4</b>, swap in MOSFET #2, then #3</td><td>pure red</td><td>Smooth 1→100% = genuine. Dim or dark = fake, set it aside</td></tr>
+</table>
+<div class="note">Only the C3 end of the <b>orange signal wire</b> moves between tests. Unplug USB before moving it. Pin labels are printed beside each hole on the chip side. With USB at the top, <b>5V, G, 3.3, 4</b> run down the right edge and <b>5, 6</b> sit at the top of the left edge. Keep the wire pins from touching neighbouring holes.</div>
+</div>
+<script>
+const ns='http://www.w3.org/2000/svg';
+const add=(p,t,a,txt)=>{const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);if(txt!=null)e.textContent=txt;p.appendChild(e);return e};
+const X=c=>262+(40-c)*18, g=document.getElementById('holes');
+for(let c=22;c<=40;c++) for(const y of [48,68,112,130,148,166,184]) add(g,'rect',{x:X(c)-3,y:y-3,width:6,height:6,rx:1.2,fill:'#d9d3c6'});
+[[40,0],[36,1],[30,1],[25,1]].forEach(([c,k])=>add(g,'text',{x:X(c),y:31,'font-size':8.5,'text-anchor':'middle',fill:k?'#5f5b52':'#a39d90','font-weight':k?700:400},c));
+const c3=document.getElementById('c3');
+const R=['5V','G','3.3','4','3','2','1','0'], L=['5','6','7','8','9','10','20','21'];
+const hot={'5V':'#ff8a80','G':'#ffffff','4':'#ffb74d','5':'#6fd08a','6':'#7fb4ff'};
+R.forEach((p,i)=>{const y=66+i*26;add(c3,'circle',{cx:736,cy:y,r:5.5,fill:hot[p]?'#e8c45a':'#a88f45',stroke:'#7a5a12'});
+  add(c3,'text',{x:722,y:y+4,'font-size':p.length>2?9:11,'font-weight':800,'text-anchor':'end',fill:hot[p]||'#7f8a95'},p);});
+L.forEach((p,i)=>{const y=66+i*26;add(c3,'circle',{cx:640,cy:y,r:5.5,fill:hot[p]?'#e8c45a':'#a88f45',stroke:'#7a5a12'});
+  add(c3,'text',{x:654,y:y+4,'font-size':11,'font-weight':800,'text-anchor':'start',fill:hot[p]||'#7f8a95'},p);});
+</script></body></html>

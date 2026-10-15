@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif;color:var(--foreground,#ddd)}
+.wrap{display:flex;flex-direction:column;gap:14px}
+.panel{background:#f3efe6;border-radius:var(--radius,12px);padding:16px}
+svg{width:100%;height:auto;display:block}
+svg text{font-family:system-ui,-apple-system,sans-serif}
+ol{margin:0;padding-left:22px;font-size:13.8px}
+ol li{margin:0 0 5px}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid color-mix(in srgb,var(--foreground,#ddd) 15%,transparent)}
+th{font-size:12px;color:var(--muted-foreground,#999);font-weight:600}
+.sw{display:inline-block;width:22px;height:9px;border-radius:5px;vertical-align:middle;margin-right:6px;border:1px solid rgba(127,127,127,.5)}
+.note{font-size:13px;color:var(--muted-foreground,#999)}
+.note b{color:var(--foreground,#ddd)}
+</style></head><body><div class="wrap">
+<div class="panel"><svg viewBox="0 0 720 330" aria-label="One MOSFET module">
+<rect x="300" y="20" width="96" height="36" rx="4" fill="#c9ccd1" stroke="#8a8d93"/><circle cx="348" cy="38" r="9" fill="#f3efe6" stroke="#8a8d93"/>
+<rect x="296" y="56" width="104" height="70" rx="4" fill="#151515"/>
+<text x="348" y="88" font-size="11" fill="#ddd" text-anchor="middle" font-weight="700">IRLZ44N</text>
+<text x="348" y="104" font-size="9.5" fill="#aaa" text-anchor="middle">printing facing you</text>
+<!-- 10k BEHIND legs (dashed) -->
+<path d="M322 168 L330 168" stroke="#9a9a9a" stroke-width="2" stroke-dasharray="3 2"/><path d="M366 168 L374 168" stroke="#9a9a9a" stroke-width="2" stroke-dasharray="3 2"/>
+<rect x="330" y="161" width="36" height="14" rx="6" fill="#e2c99a" stroke="#a8915f" stroke-dasharray="3 2" opacity=".75"/>
+<rect x="337" y="161" width="3" height="14" fill="#7b4a1e" opacity=".75"/><rect x="343" y="161" width="3" height="14" fill="#111" opacity=".75"/><rect x="349" y="161" width="3" height="14" fill="#e8902a" opacity=".75"/>
+<!-- legs (drawn over the resistor: legs are in front) -->
+<line x1="322" y1="126" x2="322" y2="204" stroke="#a7abb0" stroke-width="4"/>
+<line x1="348" y1="126" x2="348" y2="204" stroke="#a7abb0" stroke-width="4"/>
+<line x1="374" y1="126" x2="374" y2="204" stroke="#a7abb0" stroke-width="4"/>
+<circle cx="322" cy="168" r="3.5" fill="#c98b3a"/><circle cx="374" cy="168" r="3.5" fill="#c98b3a"/>
+<g font-size="12" font-weight="800" text-anchor="middle"><text x="310" y="144" fill="#e8902a">G</text><text x="358" y="144" fill="#555">D</text><text x="386" y="144" fill="#222">S</text></g>
+<text x="420" y="160" font-size="11" font-weight="800" fill="#55524a">10 kΩ G↔S, behind the legs</text>
+<text x="420" y="175" font-size="10" fill="#6b675e">(tab side). It must not touch D.</text>
+<!-- 100R at G tip, going down-left -->
+<path d="M322 204 L300 226" stroke="#9a9a9a" stroke-width="2"/>
+<rect x="262" y="222" width="40" height="14" rx="6" fill="#e2c99a" stroke="#a8915f" transform="rotate(-45 282 229)"/>
+<path d="M266 246 L248 262" stroke="#9a9a9a" stroke-width="2"/>
+<text x="232" y="222" font-size="11" font-weight="800" text-anchor="end" fill="#55524a">100 Ω</text>
+<path d="M248 262 L60 262" stroke="#e8902a" stroke-width="4.5" stroke-linecap="round"/>
+<circle cx="322" cy="204" r="4" fill="#c98b3a"/><circle cx="248" cy="262" r="4" fill="#c98b3a"/>
+<text x="60" y="250" font-size="11" font-weight="700" fill="#c26a12">gate wire → C3 GPIO (10–12 cm)</text>
+<!-- drain wire from D tip straight down then right -->
+<path d="M348 204 L348 262 L660 262" stroke="#7b5ea8" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+<circle cx="348" cy="204" r="4" fill="#c98b3a"/>
+<text x="660" y="250" font-size="11" font-weight="700" fill="#5b4380" text-anchor="end">drain wire → lamp LED wire (10–12 cm)</text>
+<!-- S free -->
+<text x="384" y="214" font-size="10.5" fill="#55524a" font-weight="700">S tip: leave free for now</text>
+<text x="384" y="228" font-size="10" fill="#6b675e">it joins the shared GND wire later</text>
+<rect x="30" y="288" width="660" height="32" rx="8" fill="#fff" stroke="#e0dbcf"/>
+<text x="46" y="309" font-size="11.5" fill="#55524a"><tspan font-weight="800">Then tape:</tspan> wrap each leg and joint separately so no metal shows, except the S tip.</text>
+</svg></div>
+<table>
+<tr><th>Module</th><th>Gate wire goes to</th><th>Drain wire goes to</th><th>Tag it</th></tr>
+<tr><td><b>Q1</b></td><td>C3 <b>GPIO 4</b></td><td>LED <span class="sw" style="background:#222"></span>black (red channel)</td><td>“R”</td></tr>
+<tr><td><b>Q2</b></td><td>C3 <b>GPIO 5</b></td><td>LED <span class="sw" style="background:#2f9e4a"></span>green</td><td>“G”</td></tr>
+<tr><td><b>Q3</b></td><td>C3 <b>GPIO 6</b></td><td>LED <span class="sw" style="background:#bfe3f2"></span>transparent (blue)</td><td>“B”</td></tr>
+</table>
+<ol>
+<li>Use the three <b>tested</b> MOSFETs. Trim each leg to about <b>10 mm</b>. Keep them straight.</li>
+<li>Solder the <b>10 kΩ</b> (brown-black-orange) between the <b>G</b> and <b>S</b> legs <b>on the back</b> (tab side), so it bridges over D without touching it.</li>
+<li>Solder the <b>100 Ω</b> (brown-black-brown) to the <b>G</b> leg, pointing away, then a <b>gate wire</b> onto its far end.</li>
+<li>Solder a <b>drain wire</b> to the <b>D</b> leg.</li>
+<li>Tape everything except the S leg tip. Put a tape flag <b>R / G / B</b> on each module.</li>
+</ol>
+<div class="note">Wire: cut Freenove jumpers work well, since their colours help tell the gate wires apart. Leave tails long (10–12 cm); they get trimmed when everything goes into the channel. Do one module, send me a photo, then make the other two the same way.</div>
+</div></body></html>
